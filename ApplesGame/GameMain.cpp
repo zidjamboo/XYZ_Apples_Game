@@ -36,11 +36,13 @@ struct Vector2D
 };
 
 typedef Vector2D Position2D;
+typedef Vector2D Size2D;
 
 struct GameState
 {
 	// Player data
 	Position2D playerPosition;
+	Size2D playerSize;
 	float playerSpeed = 0.f;
 	PlayerDirection playerDirection = PlayerDirection::Right;
 	sf::RectangleShape playerShape;
@@ -53,6 +55,7 @@ struct GameState
 	
 	//Rocks data
 	Position2D rocksPositions[NUM_ROCKS];
+	Size2D rocksSize[NUM_ROCKS];
 	sf::RectangleShape rocksShapes[NUM_ROCKS];
 
 	//Global game data
@@ -60,21 +63,46 @@ struct GameState
 	float pauseTimeLeft = 0.f;
 };
 
+static bool IsRectanglesCollide(
+	Position2D rect1Position, Size2D rect1Size, Position2D rect2Position, Size2D rect2Size
+)
+{
+	float dx = fabs(rect1Position.x - rect2Position.x);
+	float dy = fabs(rect1Position.y - rect2Position.y);
+	
+	return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
+}
+
+static float GetRandomAxeInScreen(float axeLength)
+{
+	return rand() / (float)RAND_MAX * axeLength;
+}
+
+static Position2D GetRandomPositionInScreen()
+{
+	Position2D result;
+
+	result.x = GetRandomAxeInScreen(SCREEN_WIDTH);
+	result.y = GetRandomAxeInScreen(SCREEN_HEIGHT);
+
+	return result;
+}
+
 static void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
 {
-	objectPosition.x = rand() / (float)RAND_MAX * SCREEN_WIDTH;
-	objectPosition.y = rand() / (float)RAND_MAX * SCREEN_HEIGHT;
+	objectPosition = GetRandomPositionInScreen();
 	objectShape.setPosition(objectPosition.x, objectPosition.y);
 }
 
 static void InitGame(GameState& gameState)
 {
 	gameState.playerPosition = {SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f};
+	gameState.playerSize = {PLAYER_SIZE, PLAYER_SIZE};
 	gameState.playerDirection = PlayerDirection::Right;
 
-	gameState.playerShape.setSize(sf::Vector2f(PLAYER_SIZE, PLAYER_SIZE));
+	gameState.playerShape.setSize(sf::Vector2f(gameState.playerSize.x, gameState.playerSize.y));
 	gameState.playerShape.setFillColor(sf::Color::Red);
-	gameState.playerShape.setOrigin(PLAYER_SIZE / 2.f, PLAYER_SIZE / 2.f);
+	gameState.playerShape.setOrigin(gameState.playerSize.x / 2.f, gameState.playerSize.y / 2.f);
 
 	for (int i = 0; i < NUM_APPLES; ++i)
 	{
@@ -86,10 +114,11 @@ static void InitGame(GameState& gameState)
 
 	for (int i = 0; i < NUM_ROCKS; ++i)
 	{
+		gameState.rocksSize[i] = {ROCK_SIZE, ROCK_SIZE};
 		sf::RectangleShape& rockShape = gameState.rocksShapes[i];
-		rockShape.setSize(sf::Vector2f(ROCK_SIZE, ROCK_SIZE));
+		rockShape.setSize(sf::Vector2f(gameState.rocksSize[i].x, gameState.rocksSize[i].y));
 		rockShape.setFillColor(sf::Color::Cyan);
-		rockShape.setOrigin(ROCK_SIZE / 2.f, ROCK_SIZE / 2.f);
+		rockShape.setOrigin(gameState.rocksSize[i].x / 2.f, gameState.rocksSize[i].y / 2.f);
 	}	
 }
 
@@ -157,6 +186,25 @@ static void UpdateGame(GameState& gameState, float& deltaTime)
 	}	
 }
 
+
+static void Draw(GameState& gameState, sf::RenderWindow& window)
+{
+	window.clear();
+	gameState.playerShape.setPosition(gameState.playerPosition.x, gameState.playerPosition.y);
+	for (int i = 0; i < NUM_APPLES; ++i)
+	{
+		window.draw(gameState.applesShapes[i]);
+	}
+
+	for (int i = 0; i < NUM_ROCKS; ++i)
+	{
+		window.draw(gameState.rocksShapes[i]);
+	}
+		
+	window.draw(gameState.playerShape);
+	window.display();	
+}
+
 int main()
 {
 	int seed = (int)time(nullptr);
@@ -175,6 +223,13 @@ int main()
 
 	while (window.isOpen())
 	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		
 		float currentTime = gameClock.getElapsedTime().asSeconds();
 		float deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
@@ -192,13 +247,6 @@ int main()
 		{
 			gameState.pauseTimeLeft -= deltaTime;
 			continue;
-		}
-
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
 		}
 
 		UpdateGame(gameState, deltaTime);
@@ -222,10 +270,12 @@ int main()
 		bool isCollapsedWithRock = false;
 		for (int i = 0; i < NUM_ROCKS; ++i)
 		{
-			float dx = abs(gameState.playerPosition.x - gameState.rocksPositions[i].x);
-			float dy = abs(gameState.playerPosition.y - gameState.rocksPositions[i].y);
-			float sum = (PLAYER_SIZE + ROCK_SIZE) / 2;
-			if (dx <= sum && dy <= sum)
+			if (IsRectanglesCollide(
+					gameState.playerPosition,
+					gameState.playerSize,
+					gameState.rocksPositions[i],
+					gameState.rocksSize[i])
+			)
 			{
 				isCollapsedWithRock = true;
 				break;
@@ -234,27 +284,14 @@ int main()
 		
 		if (
 			isCollapsedWithRock ||
-			gameState.playerPosition.x - PLAYER_SIZE / 2.f < 0 || gameState.playerPosition.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH ||
-			gameState.playerPosition.y - PLAYER_SIZE / 2.f < 0 || gameState.playerPosition.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT
+			gameState.playerPosition.x - gameState.playerSize.x / 2.f < 0 || gameState.playerPosition.x + gameState.playerSize.x / 2.f > SCREEN_WIDTH ||
+			gameState.playerPosition.y - gameState.playerSize.y / 2.f < 0 || gameState.playerPosition.y + gameState.playerSize.y / 2.f > SCREEN_HEIGHT
 		)
 		{
 			gameState.isGameOver = true;
 		}
 		
-		window.clear();
-		gameState.playerShape.setPosition(gameState.playerPosition.x, gameState.playerPosition.y);
-		for (int i = 0; i < NUM_APPLES; ++i)
-		{
-			window.draw(gameState.applesShapes[i]);
-		}
-
-		for (int i = 0; i < NUM_ROCKS; ++i)
-		{
-			window.draw(gameState.rocksShapes[i]);
-		}
-		
-		window.draw(gameState.playerShape);
-		window.display();
+		Draw(gameState, window);
 	}
 
 	return 0;
