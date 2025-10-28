@@ -81,12 +81,12 @@ static bool IsRectanglesCollide(
 static bool isCirclesCollide(
 	Position2D circle1Position, CircleSize circle1Size, Position2D circle2Position, CircleSize circle2Size)
 {
-	float squareDistance =
-					(circle1Position.x - circle2Position.x) *
-					(circle1Position.x - circle2Position.x) +
-					(circle1Position.y - circle2Position.y) *
-					(circle1Position.y - circle2Position.y);
-	float squareRadiusSum = (circle1Size.diameter + circle2Size.diameter) * (circle1Size.diameter + circle2Size.diameter) / 4;
+	float dx = circle1Position.x - circle2Position.x;
+	float dy = circle1Position.y - circle2Position.y;
+	float squareDistance = dx * dx + dy *dy;
+
+	float diameterSum = circle1Size.diameter + circle2Size.diameter;
+	float squareRadiusSum = diameterSum * diameterSum / 4;
 
 	return squareDistance <= squareRadiusSum;
 }
@@ -224,6 +224,23 @@ static void Draw(GameState& gameState, sf::RenderWindow& window)
 	window.display();	
 }
 
+static void StartPause(GameState& gameState)
+{
+	gameState.pauseTimeLeft = INITIAL_PAUSE_TIME;
+	gameState.isGameOver = false;	
+}
+
+static bool isNeedPause(GameState& gameState, float deltaTime)
+{
+	if (gameState.pauseTimeLeft > 0.f)
+	{
+		gameState.pauseTimeLeft -= deltaTime;
+		return true;
+	}
+
+	return false;
+}
+
 int main()
 {
 	int seed = (int)time(nullptr);
@@ -256,15 +273,11 @@ int main()
 		if (gameState.isGameOver)
 		{
 			RestartGame(gameState);
-			
-			gameState.pauseTimeLeft = INITIAL_PAUSE_TIME;
-
-			gameState.isGameOver = false;
+			StartPause(gameState);
 		}
 
-		if (gameState.pauseTimeLeft > 0.f)
+		if (isNeedPause(gameState, deltaTime))
 		{
-			gameState.pauseTimeLeft -= deltaTime;
 			continue;
 		}
 
