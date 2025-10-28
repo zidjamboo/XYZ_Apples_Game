@@ -112,7 +112,7 @@ static void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
 	objectShape.setPosition(objectPosition.x, objectPosition.y);
 }
 
-static void InitGame(GameState& gameState)
+static void InitPlayer(GameState& gameState)
 {
 	gameState.playerPosition = {SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f};
 	gameState.playerSize = {PLAYER_SIZE, PLAYER_SIZE};
@@ -120,8 +120,11 @@ static void InitGame(GameState& gameState)
 
 	gameState.playerShape.setSize(sf::Vector2f(gameState.playerSize.x, gameState.playerSize.y));
 	gameState.playerShape.setFillColor(sf::Color::Red);
-	gameState.playerShape.setOrigin(gameState.playerSize.x / 2.f, gameState.playerSize.y / 2.f);
+	gameState.playerShape.setOrigin(gameState.playerSize.x / 2.f, gameState.playerSize.y / 2.f);	
+}
 
+static void InitApples(GameState& gameState)
+{
 	for (int i = 0; i < NUM_APPLES; ++i)
 	{
 		gameState.applesSize[i].diameter = APPLE_SIZE;
@@ -129,8 +132,11 @@ static void InitGame(GameState& gameState)
 		appleShape.setRadius(gameState.applesSize[i].diameter / 2.f);
 		appleShape.setFillColor(sf::Color::Green);
 		appleShape.setOrigin(gameState.applesSize[i].diameter / 2.f, gameState.applesSize[i].diameter / 2.f);
-	}
+	}	
+}
 
+static void InitRocks(GameState& gameState)
+{
 	for (int i = 0; i < NUM_ROCKS; ++i)
 	{
 		gameState.rocksSize[i] = {ROCK_SIZE, ROCK_SIZE};
@@ -138,7 +144,14 @@ static void InitGame(GameState& gameState)
 		rockShape.setSize(sf::Vector2f(gameState.rocksSize[i].x, gameState.rocksSize[i].y));
 		rockShape.setFillColor(sf::Color::Cyan);
 		rockShape.setOrigin(gameState.rocksSize[i].x / 2.f, gameState.rocksSize[i].y / 2.f);
-	}	
+	}		
+}
+
+static void InitGame(GameState& gameState)
+{
+	InitPlayer(gameState);
+	InitApples(gameState);
+	InitRocks(gameState);
 }
 
 static void RestartGame(GameState& gameState)
