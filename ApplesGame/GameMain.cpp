@@ -94,7 +94,7 @@ int main()
             )
             {
                 MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
-                ++numEatenApples;
+                ++game.numEatenApples;
                 game.player.playerSpeed += ACCELERATION;
             }
         }
