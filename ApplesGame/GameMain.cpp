@@ -35,6 +35,11 @@ struct Vector2D
 	float y = 0;
 };
 
+struct CircleSize
+{
+	float diameter = 0.f;
+};
+
 typedef Vector2D Position2D;
 typedef Vector2D Size2D;
 
@@ -49,6 +54,7 @@ struct GameState
 
 	//Apples data
 	Position2D applesPositions[NUM_APPLES];
+	CircleSize applesSize[NUM_APPLES];
 	sf::CircleShape applesShapes[NUM_APPLES];
 
 	int numEatenApples = 0;
@@ -64,13 +70,25 @@ struct GameState
 };
 
 static bool IsRectanglesCollide(
-	Position2D rect1Position, Size2D rect1Size, Position2D rect2Position, Size2D rect2Size
-)
+	Position2D rect1Position, Size2D rect1Size, Position2D rect2Position, Size2D rect2Size)
 {
 	float dx = fabs(rect1Position.x - rect2Position.x);
 	float dy = fabs(rect1Position.y - rect2Position.y);
 	
 	return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
+}
+
+static bool isCirclesCollide(
+	Position2D circle1Position, CircleSize circle1Size, Position2D circle2Position, CircleSize circle2Size)
+{
+	float squareDistance =
+					(circle1Position.x - circle2Position.x) *
+					(circle1Position.x - circle2Position.x) +
+					(circle1Position.y - circle2Position.y) *
+					(circle1Position.y - circle2Position.y);
+	float squareRadiusSum = (circle1Size.diameter + circle2Size.diameter) * (circle1Size.diameter + circle2Size.diameter) / 4;
+
+	return squareDistance <= squareRadiusSum;
 }
 
 static float GetRandomAxeInScreen(float axeLength)
@@ -106,10 +124,11 @@ static void InitGame(GameState& gameState)
 
 	for (int i = 0; i < NUM_APPLES; ++i)
 	{
+		gameState.applesSize[i].diameter = APPLE_SIZE;
 		sf::CircleShape& appleShape = gameState.applesShapes[i];
-		appleShape.setRadius(APPLE_SIZE / 2.f);
+		appleShape.setRadius(gameState.applesSize[i].diameter / 2.f);
 		appleShape.setFillColor(sf::Color::Green);
-		appleShape.setOrigin(APPLE_SIZE / 2.f, APPLE_SIZE / 2.f);
+		appleShape.setOrigin(gameState.applesSize[i].diameter / 2.f, gameState.applesSize[i].diameter / 2.f);
 	}
 
 	for (int i = 0; i < NUM_ROCKS; ++i)
@@ -253,13 +272,12 @@ int main()
 
 		for (int i = 0; i < NUM_APPLES; ++i)
 		{
-			float squareDistance =
-				(gameState.playerPosition.x - gameState.applesPositions[i].x) *
-				(gameState.playerPosition.x - gameState.applesPositions[i].x) +
-				(gameState.playerPosition.y - gameState.applesPositions[i].y) *
-				(gameState.playerPosition.y - gameState.applesPositions[i].y);
-			float squareRadiusSum = (PLAYER_SIZE + APPLE_SIZE) * (PLAYER_SIZE + APPLE_SIZE) / 4;
-			if (squareDistance <= squareRadiusSum)
+			if (isCirclesCollide(
+					gameState.playerPosition,
+					{gameState.playerSize.x},
+					gameState.applesPositions[i],
+					gameState.applesSize[i])
+			)
 			{
 				MoveObject(gameState.applesShapes[i], gameState.applesPositions[i]);
 				++numEatenApples;
