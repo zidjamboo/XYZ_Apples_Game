@@ -66,7 +66,7 @@ struct Rock
 	sf::RectangleShape rockShape;	
 };
 
-struct GameState
+struct Game
 {
 	// Player data
 	Player player;
@@ -163,107 +163,108 @@ static void InitRocks(Rock (&rocks)[NUM_ROCKS])
 	}		
 }
 
-static void InitGame(GameState& gameState)
+static void RestartGame(Game& game)
 {
-	InitPlayer(gameState.player);
-	InitApples(gameState.apples);
-	InitRocks(gameState.rocks);
-}
-
-static void RestartGame(GameState& gameState)
-{
-	gameState.player.playerPosition.x = SCREEN_WIDTH / 2.f;
-	gameState.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
-	gameState.player.playerShape.setPosition(gameState.player.playerPosition.x, gameState.player.playerPosition.y);
-	gameState.player.playerSpeed = INITIAL_SPEED;
-	gameState.player.playerDirection = PlayerDirection::Right;
+	game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
+	game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
+	game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+	game.player.playerSpeed = INITIAL_SPEED;
+	game.player.playerDirection = PlayerDirection::Right;
 
 	for (int i = 0; i < NUM_APPLES; ++i)
 	{
-		MoveObject(gameState.apples[i].appleShape, gameState.apples[i].applePosition);
+		MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
 	}
 
 	for (int i = 0; i < NUM_ROCKS; ++i)
 	{
-		MoveObject(gameState.rocks[i].rockShape, gameState.rocks[i].rockPosition);
+		MoveObject(game.rocks[i].rockShape, game.rocks[i].rockPosition);
 	}
 }
 
-static void UpdateGame(GameState& gameState, float& deltaTime)
+static void InitGame(Game& game)
+{
+	InitPlayer(game.player);
+	InitApples(game.apples);
+	InitRocks(game.rocks);
+	RestartGame(game);
+}
+
+static void UpdateGame(Game& game, float& deltaTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		gameState.player.playerDirection = PlayerDirection::Right;
+		game.player.playerDirection = PlayerDirection::Right;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		gameState.player.playerDirection = PlayerDirection::UP;
+		game.player.playerDirection = PlayerDirection::UP;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		gameState.player.playerDirection = PlayerDirection::Left;
+		game.player.playerDirection = PlayerDirection::Left;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		gameState.player.playerDirection = PlayerDirection::Down;
+		game.player.playerDirection = PlayerDirection::Down;
 	}
 
 
-	switch (gameState.player.playerDirection)
+	switch (game.player.playerDirection)
 	{
 	case PlayerDirection::Right:
 		{
-			gameState.player.playerPosition.x += gameState.player.playerSpeed * deltaTime;
+			game.player.playerPosition.x += game.player.playerSpeed * deltaTime;
 			break;
 		}
 	case PlayerDirection::UP:
 		{
-			gameState.player.playerPosition.y -= gameState.player.playerSpeed * deltaTime;
+			game.player.playerPosition.y -= game.player.playerSpeed * deltaTime;
 			break;
 		}
 	case PlayerDirection::Left:
 		{
-			gameState.player.playerPosition.x -= gameState.player.playerSpeed * deltaTime;
+			game.player.playerPosition.x -= game.player.playerSpeed * deltaTime;
 			break;
 		}
 	case PlayerDirection::Down:
 		{
-			gameState.player.playerPosition.y += gameState.player.playerSpeed * deltaTime;
+			game.player.playerPosition.y += game.player.playerSpeed * deltaTime;
 			break;
 		}
 	}	
 }
 
 
-static void Draw(GameState& gameState, sf::RenderWindow& window)
+static void Draw(Game& game, sf::RenderWindow& window)
 {
 	window.clear();
-	gameState.player.playerShape.setPosition(gameState.player.playerPosition.x, gameState.player.playerPosition.y);
+	game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
 	for (int i = 0; i < NUM_APPLES; ++i)
 	{
-		window.draw(gameState.apples[i].appleShape);
+		window.draw(game.apples[i].appleShape);
 	}
 
 	for (int i = 0; i < NUM_ROCKS; ++i)
 	{
-		window.draw(gameState.rocks[i].rockShape);
+		window.draw(game.rocks[i].rockShape);
 	}
 		
-	window.draw(gameState.player.playerShape);
+	window.draw(game.player.playerShape);
 	window.display();	
 }
 
-static void StartPause(GameState& gameState)
+static void StartPause(Game& game)
 {
-	gameState.pauseTimeLeft = INITIAL_PAUSE_TIME;
-	gameState.isGameOver = false;	
+	game.pauseTimeLeft = INITIAL_PAUSE_TIME;
+	game.isGameOver = false;	
 }
 
-static bool isNeedPause(GameState& gameState, float deltaTime)
+static bool isNeedPause(Game& game, float deltaTime)
 {
-	if (gameState.pauseTimeLeft > 0.f)
+	if (game.pauseTimeLeft > 0.f)
 	{
-		gameState.pauseTimeLeft -= deltaTime;
+		game.pauseTimeLeft -= deltaTime;
 		return true;
 	}
 
@@ -277,9 +278,8 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Apples Game");
 
-	GameState gameState;
-	InitGame(gameState);
-	RestartGame(gameState);
+	Game game;
+	InitGame(game);
 
 	int numEatenApples = 0;
 
@@ -299,31 +299,31 @@ int main()
 		float deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
-		if (gameState.isGameOver)
+		if (game.isGameOver)
 		{
-			RestartGame(gameState);
-			StartPause(gameState);
+			RestartGame(game);
+			StartPause(game);
 		}
 
-		if (isNeedPause(gameState, deltaTime))
+		if (isNeedPause(game, deltaTime))
 		{
 			continue;
 		}
 
-		UpdateGame(gameState, deltaTime);
+		UpdateGame(game, deltaTime);
 
 		for (int i = 0; i < NUM_APPLES; ++i)
 		{
 			if (isCirclesCollide(
-					gameState.player.playerPosition,
-					{gameState.player.playerSize.x},
-					gameState.apples[i].applePosition,
-					gameState.apples[i].appleSize)
+					game.player.playerPosition,
+					{game.player.playerSize.x},
+					game.apples[i].applePosition,
+					game.apples[i].appleSize)
 			)
 			{
-				MoveObject(gameState.apples[i].appleShape, gameState.apples[i].applePosition);
+				MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
 				++numEatenApples;
-				gameState.player.playerSpeed += ACCELERATION;
+				game.player.playerSpeed += ACCELERATION;
 			}
 		}
 
@@ -331,10 +331,10 @@ int main()
 		for (int i = 0; i < NUM_ROCKS; ++i)
 		{
 			if (IsRectanglesCollide(
-					gameState.player.playerPosition,
-					gameState.player.playerSize,
-					gameState.rocks[i].rockPosition,
-					gameState.rocks[i].rocksSize)
+					game.player.playerPosition,
+					game.player.playerSize,
+					game.rocks[i].rockPosition,
+					game.rocks[i].rocksSize)
 			)
 			{
 				isCollapsedWithRock = true;
@@ -344,14 +344,14 @@ int main()
 		
 		if (
 			isCollapsedWithRock ||
-			gameState.player.playerPosition.x - gameState.player.playerSize.x / 2.f < 0 || gameState.player.playerPosition.x + gameState.player.playerSize.x / 2.f > SCREEN_WIDTH ||
-			gameState.player.playerPosition.y - gameState.player.playerSize.y / 2.f < 0 || gameState.player.playerPosition.y + gameState.player.playerSize.y / 2.f > SCREEN_HEIGHT
+			game.player.playerPosition.x - game.player.playerSize.x / 2.f < 0 || game.player.playerPosition.x + game.player.playerSize.x / 2.f > SCREEN_WIDTH ||
+			game.player.playerPosition.y - game.player.playerSize.y / 2.f < 0 || game.player.playerPosition.y + game.player.playerSize.y / 2.f > SCREEN_HEIGHT
 		)
 		{
-			gameState.isGameOver = true;
+			game.isGameOver = true;
 		}
 		
-		Draw(gameState, window);
+		Draw(game, window);
 	}
 
 	return 0;
