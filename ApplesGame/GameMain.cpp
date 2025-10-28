@@ -91,17 +91,17 @@ static bool isCirclesCollide(
 	return squareDistance <= squareRadiusSum;
 }
 
-static float GetRandomAxeInScreen(float axeLength)
+static float GetRandomFloat(float min, float max)
 {
-	return rand() / (float)RAND_MAX * axeLength;
+	return min + rand() / (float)RAND_MAX * max;
 }
 
 static Position2D GetRandomPositionInScreen()
 {
 	Position2D result;
 
-	result.x = GetRandomAxeInScreen(SCREEN_WIDTH);
-	result.y = GetRandomAxeInScreen(SCREEN_HEIGHT);
+	result.x = GetRandomFloat(0, SCREEN_WIDTH);
+	result.y = GetRandomFloat(0, SCREEN_HEIGHT);
 
 	return result;
 }
