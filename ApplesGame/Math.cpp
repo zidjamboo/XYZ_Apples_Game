@@ -1,41 +1,43 @@
 ﻿#include "Math.h"
 #include <cstdlib>
 
-
-
-bool IsRectanglesCollide(
-    Position2D rect1Position, Size2D rect1Size, Position2D rect2Position, Size2D rect2Size)
+namespace ApplesGame
 {
-    float dx = (float)fabs(rect1Position.x - rect2Position.x);
-    float dy = (float)fabs(rect1Position.y - rect2Position.y);
-	
-    return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
-}
+    bool IsRectanglesCollide(
+        Position2D rect1Position, Size2D rect1Size, Position2D rect2Position, Size2D rect2Size)
+    {
+        float dx = (float)fabs(rect1Position.x - rect2Position.x);
+        float dy = (float)fabs(rect1Position.y - rect2Position.y);
 
-bool isCirclesCollide(
-    Position2D circle1Position, CircleSize circle1Size, Position2D circle2Position, CircleSize circle2Size)
-{
-    float dx = circle1Position.x - circle2Position.x;
-    float dy = circle1Position.y - circle2Position.y;
-    float squareDistance = dx * dx + dy *dy;
+        return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
+    }
 
-    float diameterSum = circle1Size.diameter + circle2Size.diameter;
-    float squareRadiusSum = diameterSum * diameterSum / 4;
+    bool isCirclesCollide(
+        Position2D circle1Position, CircleSize circle1Size, Position2D circle2Position, CircleSize circle2Size)
+    {
+        float dx = circle1Position.x - circle2Position.x;
+        float dy = circle1Position.y - circle2Position.y;
+        float squareDistance = dx * dx + dy *dy;
 
-    return squareDistance <= squareRadiusSum;
-}
+        float diameterSum = circle1Size.diameter + circle2Size.diameter;
+        float squareRadiusSum = diameterSum * diameterSum / 4;
 
-float GetRandomFloat(const float& min, const float& max)
-{
-    return min + rand() / (float)RAND_MAX * max;
-}
+        return squareDistance <= squareRadiusSum;
+    }
 
-Position2D GetRandomPositionInScreen(const int& screenWidth, const int& screenHeight)
-{
-    Position2D result;
+    float GetRandomFloat(const float& min, const float& max)
+    {
+        return min + rand() / (float)RAND_MAX * max;
+    }
 
-    result.x = GetRandomFloat(0, (float)screenWidth);
-    result.y = GetRandomFloat(0, (float)screenHeight);
+    Position2D GetRandomPositionInScreen(const int& screenWidth, const int& screenHeight)
+    {
+        Position2D result;
 
-    return result;
+        result.x = GetRandomFloat(0, (float)screenWidth);
+        result.y = GetRandomFloat(0, (float)screenHeight);
+
+        return result;
+    }
+
 }

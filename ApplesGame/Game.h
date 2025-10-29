@@ -6,24 +6,30 @@
 #include "Math.h"
 #include "Constants.h"
 
-struct Game
+namespace ApplesGame
 {
-    // Player data
-    Player player;
+    struct Game
+    {
+        // Player data
+        Player player;
 
-    //Apples data
-    Apple apples[NUM_APPLES];
+        //Apples data
+        Apple apples[NUM_APPLES];
 
-    //Rocks data
-    Rock rocks[NUM_ROCKS];
+        //Rocks data
+        Rock rocks[NUM_ROCKS];
 
-    //Global game data
-    int numEatenApples = 0;
-    bool isGameOver = false;
-    float pauseTimeLeft = 0.f;
-};
+        //Global game data
+        int numEatenApples = 0;
+        bool isGameOver = false;
+        float pauseTimeLeft = 0.f;
+    };
 
-void MoveObject(sf::Shape& objectShape, Position2D& objectPosition);
-void RestartGame(Game& game);
-void InitGame(Game& game);
-void UpdateGame(Game& game, float& deltaTime);
+    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition);
+    void RestartGame(Game& game);
+    void InitGame(Game& game);
+    void UpdateGame(Game& game, float& deltaTime);
+    void Draw(Game& game, sf::RenderWindow& window);
+    void StartPause(Game& game);
+    bool isNeedPause(Game& game, float deltaTime);
+}

@@ -8,43 +8,9 @@
 #include "Constants.h"
 
 
-static void Draw(Game& game, sf::RenderWindow& window)
-{
-    window.clear();
-    game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
-    for (int i = 0; i < NUM_APPLES; ++i)
-    {
-        window.draw(game.apples[i].appleShape);
-    }
-
-    for (int i = 0; i < NUM_ROCKS; ++i)
-    {
-        window.draw(game.rocks[i].rockShape);
-    }
-
-    window.draw(game.player.playerShape);
-    window.display();
-}
-
-static void StartPause(Game& game)
-{
-    game.pauseTimeLeft = INITIAL_PAUSE_TIME;
-    game.isGameOver = false;
-}
-
-static bool isNeedPause(Game& game, float deltaTime)
-{
-    if (game.pauseTimeLeft > 0.f)
-    {
-        game.pauseTimeLeft -= deltaTime;
-        return true;
-    }
-
-    return false;
-}
-
 int main()
 {
+    using namespace ApplesGame;
     int seed = (int)time(nullptr);
     srand(seed);
 

@@ -1,79 +1,117 @@
 ﻿#include "Game.h"
 
-void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
+namespace ApplesGame
 {
-    objectPosition = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
-    objectShape.setPosition(objectPosition.x, objectPosition.y);
-}
-
-void RestartGame(Game& game)
-{
-    game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
-    game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
-    game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
-    game.player.playerSpeed = INITIAL_SPEED;
-    game.player.playerDirection = PlayerDirection::Right;
-
-    for (int i = 0; i < NUM_APPLES; ++i)
+    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
     {
-        MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
+        objectPosition = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+        objectShape.setPosition(objectPosition.x, objectPosition.y);
     }
 
-    for (int i = 0; i < NUM_ROCKS; ++i)
+    void RestartGame(Game& game)
     {
-        MoveObject(game.rocks[i].rockShape, game.rocks[i].rockPosition);
-    }
-}
-
-void InitGame(Game& game)
-{
-    InitPlayer(game.player);
-    InitApples(game.apples);
-    InitRocks(game.rocks);
-    RestartGame(game);
-}
-
-void UpdateGame(Game& game, float& deltaTime)
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
+        game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
+        game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
+        game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+        game.player.playerSpeed = INITIAL_SPEED;
         game.player.playerDirection = PlayerDirection::Right;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        game.player.playerDirection = PlayerDirection::UP;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        game.player.playerDirection = PlayerDirection::Left;
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        game.player.playerDirection = PlayerDirection::Down;
+
+        for (int i = 0; i < NUM_APPLES; ++i)
+        {
+            MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
+        }
+
+        for (int i = 0; i < NUM_ROCKS; ++i)
+        {
+            MoveObject(game.rocks[i].rockShape, game.rocks[i].rockPosition);
+        }
     }
 
-
-    switch (game.player.playerDirection)
+    void InitGame(Game& game)
     {
-    case PlayerDirection::Right:
+        InitPlayer(game.player);
+        InitApples(game.apples);
+        InitRocks(game.rocks);
+        RestartGame(game);
+    }
+
+    void UpdateGame(Game& game, float& deltaTime)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            game.player.playerPosition.x += game.player.playerSpeed * deltaTime;
-            break;
+            game.player.playerDirection = PlayerDirection::Right;
         }
-    case PlayerDirection::UP:
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            game.player.playerPosition.y -= game.player.playerSpeed * deltaTime;
-            break;
+            game.player.playerDirection = PlayerDirection::UP;
         }
-    case PlayerDirection::Left:
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            game.player.playerPosition.x -= game.player.playerSpeed * deltaTime;
-            break;
+            game.player.playerDirection = PlayerDirection::Left;
         }
-    case PlayerDirection::Down:
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            game.player.playerPosition.y += game.player.playerSpeed * deltaTime;
-            break;
+            game.player.playerDirection = PlayerDirection::Down;
         }
+
+
+        switch (game.player.playerDirection)
+        {
+        case PlayerDirection::Right:
+            {
+                game.player.playerPosition.x += game.player.playerSpeed * deltaTime;
+                break;
+            }
+        case PlayerDirection::UP:
+            {
+                game.player.playerPosition.y -= game.player.playerSpeed * deltaTime;
+                break;
+            }
+        case PlayerDirection::Left:
+            {
+                game.player.playerPosition.x -= game.player.playerSpeed * deltaTime;
+                break;
+            }
+        case PlayerDirection::Down:
+            {
+                game.player.playerPosition.y += game.player.playerSpeed * deltaTime;
+                break;
+            }
+        }
+    }
+
+    void Draw(Game& game, sf::RenderWindow& window)
+    {
+        window.clear();
+        game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+        for (int i = 0; i < NUM_APPLES; ++i)
+        {
+            window.draw(game.apples[i].appleShape);
+        }
+
+        for (int i = 0; i < NUM_ROCKS; ++i)
+        {
+            window.draw(game.rocks[i].rockShape);
+        }
+
+        window.draw(game.player.playerShape);
+        window.display();
+    }
+
+    void StartPause(Game& game)
+    {
+        game.pauseTimeLeft = INITIAL_PAUSE_TIME;
+        game.isGameOver = false;
+    }
+
+    bool isNeedPause(Game& game, float deltaTime)
+    {
+        if (game.pauseTimeLeft > 0.f)
+        {
+            game.pauseTimeLeft -= deltaTime;
+            return true;
+        }
+
+        return false;
     }
 }
