@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+namespace sf
+{
+    class Sprite;
+}
+
 namespace ApplesGame
 {
     struct Vector2D
@@ -33,5 +38,6 @@ namespace ApplesGame
     float GetRandomFloat(const float& min, const float& max);
     Position2D GetRandomPositionInScreen(const int& screenWidth, const int& screenHeight);
 
-    void someFunc();
+    void setSpriteSize(sf::Sprite& sprite, const float& desiredWidth, const float& desiredHeight);
+    void setSpriteRelativeOrigin(sf::Sprite& sprite, const float& originX, const float& originY);
 }

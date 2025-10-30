@@ -91,7 +91,7 @@ int main()
             game.isGameOver = true;
         }
 
-        Draw(game, window);
+        DrawGame(game, window);
     }
 
     return 0;

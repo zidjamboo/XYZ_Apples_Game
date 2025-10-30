@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include <cassert>
 
 namespace ApplesGame
 {
@@ -12,7 +13,7 @@ namespace ApplesGame
     {
         game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
         game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
-        game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+        game.player.playerSprite.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
         game.player.playerSpeed = INITIAL_SPEED;
         game.player.playerDirection = PlayerDirection::Right;
 
@@ -29,7 +30,8 @@ namespace ApplesGame
 
     void InitGame(Game& game)
     {
-        InitPlayer(game.player);
+        assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "/Player.png"));
+        InitPlayer(game.player, game);
         InitApples(game.apples);
         InitRocks(game.rocks);
         RestartGame(game);
@@ -80,10 +82,12 @@ namespace ApplesGame
         }
     }
 
-    void Draw(Game& game, sf::RenderWindow& window)
+    void DrawGame(Game& game, sf::RenderWindow& window)
     {
         window.clear();
-        game.player.playerShape.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+
+        DrawPlayer(game.player, window);
+
         for (int i = 0; i < NUM_APPLES; ++i)
         {
             window.draw(game.apples[i].appleShape);
@@ -94,7 +98,6 @@ namespace ApplesGame
             window.draw(game.rocks[i].rockShape);
         }
 
-        window.draw(game.player.playerShape);
         window.display();
     }
 

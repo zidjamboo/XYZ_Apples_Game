@@ -23,13 +23,16 @@ namespace ApplesGame
         int numEatenApples = 0;
         bool isGameOver = false;
         float pauseTimeLeft = 0.f;
+
+        // textures
+        sf::Texture playerTexture;
     };
 
     void MoveObject(sf::Shape& objectShape, Position2D& objectPosition);
     void RestartGame(Game& game);
     void InitGame(Game& game);
     void UpdateGame(Game& game, float& deltaTime);
-    void Draw(Game& game, sf::RenderWindow& window);
+    void DrawGame(Game& game, sf::RenderWindow& window);
     void StartPause(Game& game);
     bool isNeedPause(Game& game, float deltaTime);
 }
