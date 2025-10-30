@@ -13,4 +13,7 @@ namespace ApplesGame
     };
 
     void InitApples(Apple (&apples)[NUM_APPLES]);
+
+    struct Game;
+    void EatPossibleApples(Game& game);
 }

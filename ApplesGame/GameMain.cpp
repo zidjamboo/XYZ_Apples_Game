@@ -26,6 +26,8 @@ int main()
 
     while (window.isOpen())
     {
+        sf::sleep(sf::milliseconds(16));
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -50,20 +52,7 @@ int main()
 
         UpdateGame(game, deltaTime);
 
-        for (int i = 0; i < NUM_APPLES; ++i)
-        {
-            if (isCirclesCollide(
-                    game.player.playerPosition,
-                    {game.player.playerSize.x},
-                    game.apples[i].applePosition,
-                    game.apples[i].appleSize)
-            )
-            {
-                MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
-                ++game.numEatenApples;
-                game.player.playerSpeed += ACCELERATION;
-            }
-        }
+        EatPossibleApples(game);
 
         bool isCollapsedWithRock = false;
         for (int i = 0; i < NUM_ROCKS; ++i)
