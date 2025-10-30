@@ -1,5 +1,6 @@
 ﻿#include "GameFinish.h"
 #include "Game.h"
+#include "SFML/Audio/Sound.hpp"
 
 namespace
 {
@@ -59,6 +60,7 @@ namespace ApplesGame
         if (isCollapsedWithRock(game) || isCollapsedWithBorder(game))
         {
             game.isGameOver = true;
+            game.sounds.deathSound.play();
         }
     }
 }

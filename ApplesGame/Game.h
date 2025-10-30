@@ -5,6 +5,7 @@
 #include "Rock.h"
 #include "Math.h"
 #include "Constants.h"
+#include "Sounds.h"
 #include "Textures.h"
 
 namespace ApplesGame
@@ -27,6 +28,9 @@ namespace ApplesGame
 
         // Textures
         Textures textures;
+
+        // Sounds
+        Sounds sounds;
     };
 
     void MoveObject(sf::Sprite& sprite, Position2D& position);

@@ -1,4 +1,5 @@
 ﻿#include "Apple.h"
+#include <SFML/Audio.hpp>
 #include "Game.h"
 
 namespace ApplesGame
@@ -36,6 +37,8 @@ namespace ApplesGame
                 MoveObject(apple.sprite, apple.position);
                 ++game.numEatenApples;
                 game.player.speed += ACCELERATION;
+
+                game.sounds.appleEatSound.play();
             }
         }
     }

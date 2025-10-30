@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include <SFML/Audio.hpp>
 #include <cassert>
 
 #include "Textures.h"
@@ -111,10 +112,24 @@ namespace ApplesGame
 
     void InitGame(Game& game)
     {
+        // Init textures
         assert(game.textures.player.loadFromFile(RESOURCES_PATH + "\\Player.png"));
         assert(game.textures.apple.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
         assert(game.textures.rock.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
 
+        // Init sounds
+        sf::SoundBuffer& appleEatBuffer = game.sounds.appleEatBuffer;
+        assert(appleEatBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
+        game.sounds.appleEatSound.setBuffer(appleEatBuffer);
+
+        sf::SoundBuffer& deathBuffer = game.sounds.deathBuffer;
+        assert(deathBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
+        game.sounds.deathSound.setBuffer(deathBuffer);
+
+        sf::Sound ds(deathBuffer);
+        ds.play();
+
+        // Init game
         InitPlayer(game.player, game.textures.player);
         InitApples(game.apples, game.textures.apple);
         InitRocks(game.rocks, game.textures.rock);

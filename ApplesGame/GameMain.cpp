@@ -2,7 +2,6 @@
 // Authored by Aleksandr Rybalka (polterageist@gmail.com)
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "Game.h"
 #include "GameFinish.h"
 #include "Constants.h"
