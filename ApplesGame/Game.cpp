@@ -1,44 +1,11 @@
 ﻿#include "Game.h"
 #include <cassert>
 
-namespace ApplesGame
+namespace
 {
-    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
+    void HandleInput(ApplesGame::Game& game)
     {
-        objectPosition = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
-        objectShape.setPosition(objectPosition.x, objectPosition.y);
-    }
-
-    void RestartGame(Game& game)
-    {
-        game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
-        game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
-        game.player.playerSprite.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
-        game.player.playerSpeed = INITIAL_SPEED;
-        game.player.playerDirection = PlayerDirection::Right;
-
-        for (int i = 0; i < NUM_APPLES; ++i)
-        {
-            MoveObject(game.apples[i].appleShape, game.apples[i].applePosition);
-        }
-
-        for (int i = 0; i < NUM_ROCKS; ++i)
-        {
-            MoveObject(game.rocks[i].rockShape, game.rocks[i].rockPosition);
-        }
-    }
-
-    void InitGame(Game& game)
-    {
-        assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "/Player.png"));
-        InitPlayer(game.player, game);
-        InitApples(game.apples);
-        InitRocks(game.rocks);
-        RestartGame(game);
-    }
-
-    void UpdateGame(Game& game, float& deltaTime)
-    {
+        using namespace ApplesGame;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             game.player.playerDirection = PlayerDirection::Right;
@@ -55,8 +22,11 @@ namespace ApplesGame
         {
             game.player.playerDirection = PlayerDirection::Down;
         }
+    }
 
-
+    void SwitchDirection(ApplesGame::Game& game, const float& deltaTime)
+    {
+        using namespace ApplesGame;
         switch (game.player.playerDirection)
         {
         case PlayerDirection::Right:
@@ -81,19 +51,57 @@ namespace ApplesGame
             }
         }
     }
+}
+
+namespace ApplesGame
+{
+    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
+    {
+        objectPosition = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+        objectShape.setPosition(objectPosition.x, objectPosition.y);
+    }
+
+    void RestartGame(Game& game)
+    {
+        game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
+        game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
+        game.player.playerSprite.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
+        game.player.playerSpeed = INITIAL_SPEED;
+        game.player.playerDirection = PlayerDirection::Right;
+
+        for (Apple& apple : game.apples)
+        {
+            MoveObject(apple.appleShape, apple.applePosition);
+        }
+
+        for (Rock& rock : game.rocks)
+        {
+            MoveObject(rock.rockShape, rock.rockPosition);
+        }
+    }
+
+    void InitGame(Game& game)
+    {
+        assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "/Player.png"));
+        InitPlayer(game.player, game);
+        InitApples(game.apples);
+        InitRocks(game.rocks);
+        RestartGame(game);
+    }
+
+    void UpdateGame(Game& game, float& deltaTime)
+    {
+        HandleInput(game);
+        SwitchDirection(game, deltaTime);
+    }
 
     void DrawGame(Game& game, sf::RenderWindow& window)
     {
         window.clear();
 
         DrawPlayer(game.player, window);
-
-
-
-        for (int i = 0; i < NUM_ROCKS; ++i)
-        {
-            window.draw(game.rocks[i].rockShape);
-        }
+        DrawApples(game.apples, window);
+        DrawRocks(game.rocks, window);
 
         window.display();
     }

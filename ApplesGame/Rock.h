@@ -12,5 +12,7 @@ namespace ApplesGame
         sf::RectangleShape rockShape;
     };
 
+    struct Game;
     void InitRocks(Rock (&rocks)[NUM_ROCKS]);
+    void DrawRocks(Rock (&rocks)[NUM_ROCKS], sf::RenderWindow& window);
 }
