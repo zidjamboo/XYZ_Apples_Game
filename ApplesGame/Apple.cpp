@@ -16,6 +16,14 @@ namespace ApplesGame
         }
     }
 
+    void DrawApples(Game& game, sf::RenderWindow& window)
+    {
+        for (int i = 0; i < NUM_APPLES; ++i)
+        {
+            window.draw(game.apples[i].appleShape);
+        }
+    }
+
     void EatPossibleApples(Game& game)
     {
         for (int i = 0; i < NUM_APPLES; ++i)

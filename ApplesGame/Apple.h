@@ -12,8 +12,8 @@ namespace ApplesGame
         sf::CircleShape appleShape;
     };
 
-    void InitApples(Apple (&apples)[NUM_APPLES]);
-
     struct Game;
+    void InitApples(Apple (&apples)[NUM_APPLES]);
+    void DrawApples(Game& game, sf::RenderWindow& window);
     void EatPossibleApples(Game& game);
 }

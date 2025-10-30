@@ -88,10 +88,7 @@ namespace ApplesGame
 
         DrawPlayer(game.player, window);
 
-        for (int i = 0; i < NUM_APPLES; ++i)
-        {
-            window.draw(game.apples[i].appleShape);
-        }
+
 
         for (int i = 0; i < NUM_ROCKS; ++i)
         {
