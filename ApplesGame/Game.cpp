@@ -3,52 +3,79 @@
 
 namespace
 {
-    void HandleInput(ApplesGame::Game& game)
+    void HandleInput(ApplesGame::PlayerDirection& playerDirection)
     {
         using namespace ApplesGame;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            game.player.playerDirection = PlayerDirection::Right;
+            playerDirection = PlayerDirection::Right;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            game.player.playerDirection = PlayerDirection::UP;
+            playerDirection = PlayerDirection::UP;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            game.player.playerDirection = PlayerDirection::Left;
+            playerDirection = PlayerDirection::Left;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
-            game.player.playerDirection = PlayerDirection::Down;
+            playerDirection = PlayerDirection::Down;
         }
     }
 
-    void SwitchDirection(ApplesGame::Game& game, const float& deltaTime)
+    void SwitchDirection(ApplesGame::Player& player, const float& deltaTime)
     {
         using namespace ApplesGame;
-        switch (game.player.playerDirection)
+        const PlayerDirection& playerDirection = player.playerDirection;
+        switch (playerDirection)
         {
         case PlayerDirection::Right:
             {
-                game.player.playerPosition.x += game.player.playerSpeed * deltaTime;
+                player.playerPosition.x += player.playerSpeed * deltaTime;
                 break;
             }
         case PlayerDirection::UP:
             {
-                game.player.playerPosition.y -= game.player.playerSpeed * deltaTime;
+                player.playerPosition.y -= player.playerSpeed * deltaTime;
                 break;
             }
         case PlayerDirection::Left:
             {
-                game.player.playerPosition.x -= game.player.playerSpeed * deltaTime;
+                player.playerPosition.x -= player.playerSpeed * deltaTime;
                 break;
             }
         case PlayerDirection::Down:
             {
-                game.player.playerPosition.y += game.player.playerSpeed * deltaTime;
+                player.playerPosition.y += player.playerSpeed * deltaTime;
                 break;
             }
+        }
+    }
+
+    void RotatePlayer(ApplesGame::Player& player)
+    {
+        using namespace ApplesGame;
+        const PlayerDirection& playerDirection = player.playerDirection;
+        const Size2D playerSize = player.playerSize;
+        sf::Sprite& sprite = player.playerSprite;
+        if (playerDirection == PlayerDirection::Right)
+        {
+            setSpriteSize(sprite, playerSize.x, playerSize.y);
+            sprite.setRotation(0.f);
+        }
+        else if (playerDirection == PlayerDirection::Down)
+        {
+            sprite.setRotation(90.f);
+        }
+        else if (playerDirection == PlayerDirection::Left)
+        {
+            setSpriteSize(sprite, playerSize.x, -playerSize.y);
+            sprite.setRotation(180.f);
+        }
+        else if (playerDirection == PlayerDirection::UP)
+        {
+            sprite.setRotation(270.f);
         }
     }
 }
@@ -91,8 +118,9 @@ namespace ApplesGame
 
     void UpdateGame(Game& game, float& deltaTime)
     {
-        HandleInput(game);
-        SwitchDirection(game, deltaTime);
+        HandleInput(game.player.playerDirection);
+        SwitchDirection(game.player, deltaTime);
+        RotatePlayer(game.player);
     }
 
     void DrawGame(Game& game, sf::RenderWindow& window)
