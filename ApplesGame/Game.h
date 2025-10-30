@@ -35,4 +35,5 @@ namespace ApplesGame
     void DrawGame(Game& game, sf::RenderWindow& window);
     void StartPause(Game& game);
     bool isNeedPause(Game& game, float deltaTime);
+    void CheckIfGameOver(Game& game);
 }

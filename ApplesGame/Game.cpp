@@ -117,4 +117,33 @@ namespace ApplesGame
 
         return false;
     }
+
+    void CheckIfGameOver(Game& game)
+    {
+        bool isCollapsedWithRock = false;
+        for (int i = 0; i < NUM_ROCKS; ++i)
+        {
+            if (IsRectanglesCollide(
+                    game.player.playerPosition,
+                    game.player.playerSize,
+                    game.rocks[i].rockPosition,
+                    game.rocks[i].rocksSize)
+            )
+            {
+                isCollapsedWithRock = true;
+                break;
+            }
+        }
+
+        if (
+            isCollapsedWithRock ||
+            game.player.playerPosition.x - game.player.playerSize.x / 2.f < 0 || game.player.playerPosition.x + game.
+            player.playerSize.x / 2.f > SCREEN_WIDTH ||
+            game.player.playerPosition.y - game.player.playerSize.y / 2.f < 0 || game.player.playerPosition.y + game.
+            player.playerSize.y / 2.f > SCREEN_HEIGHT
+        )
+        {
+            game.isGameOver = true;
+        }
+    }
 }
