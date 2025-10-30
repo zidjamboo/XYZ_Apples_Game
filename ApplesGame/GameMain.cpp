@@ -19,8 +19,6 @@ int main()
     Game game;
     InitGame(game);
 
-    int numEatenApples = 0;
-
     sf::Clock gameClock;
     float lastTime = gameClock.getElapsedTime().asSeconds();
 
