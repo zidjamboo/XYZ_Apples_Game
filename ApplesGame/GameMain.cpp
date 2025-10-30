@@ -52,7 +52,7 @@ int main()
 
         UpdateGame(game, deltaTime);
         EatPossibleApples(game);
-        CheckIfGameOver(game);
+        CheckIfGameIsOver(game);
         DrawGame(game, window);
     }
 

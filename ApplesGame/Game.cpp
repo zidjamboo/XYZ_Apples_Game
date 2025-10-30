@@ -1,6 +1,40 @@
 ﻿#include "Game.h"
 #include <cassert>
 
+namespace
+{
+    bool isCollapsedWithRock(ApplesGame::Game& game)
+    {
+        using namespace ApplesGame;
+        for (int i = 0; i < NUM_ROCKS; ++i)
+        {
+            if (IsRectanglesCollide(
+                    game.player.playerPosition, game.player.playerSize,
+                    game.rocks[i].rockPosition, game.rocks[i].rocksSize)
+            )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool isCollapsedWithBorder(ApplesGame::Game& game)
+    {
+        using namespace ApplesGame;
+        if (game.player.playerPosition.x - game.player.playerSize.x / 2.f < 0 || game.player.playerPosition.x + game.
+             player.playerSize.x / 2.f > SCREEN_WIDTH ||
+             game.player.playerPosition.y - game.player.playerSize.y / 2.f < 0 || game.player.playerPosition.y + game.
+             player.playerSize.y / 2.f > SCREEN_HEIGHT)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+
 namespace ApplesGame
 {
     void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
@@ -118,30 +152,9 @@ namespace ApplesGame
         return false;
     }
 
-    void CheckIfGameOver(Game& game)
+    void CheckIfGameIsOver(Game& game)
     {
-        bool isCollapsedWithRock = false;
-        for (int i = 0; i < NUM_ROCKS; ++i)
-        {
-            if (IsRectanglesCollide(
-                    game.player.playerPosition,
-                    game.player.playerSize,
-                    game.rocks[i].rockPosition,
-                    game.rocks[i].rocksSize)
-            )
-            {
-                isCollapsedWithRock = true;
-                break;
-            }
-        }
-
-        if (
-            isCollapsedWithRock ||
-            game.player.playerPosition.x - game.player.playerSize.x / 2.f < 0 || game.player.playerPosition.x + game.
-            player.playerSize.x / 2.f > SCREEN_WIDTH ||
-            game.player.playerPosition.y - game.player.playerSize.y / 2.f < 0 || game.player.playerPosition.y + game.
-            player.playerSize.y / 2.f > SCREEN_HEIGHT
-        )
+        if (isCollapsedWithRock(game) || isCollapsedWithBorder(game))
         {
             game.isGameOver = true;
         }
