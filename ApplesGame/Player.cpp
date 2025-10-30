@@ -5,20 +5,20 @@
 
 namespace ApplesGame
 {
-    void InitPlayer(Player& player, const Game& game)
+    void InitPlayer(Player& player, const sf::Texture& playerTexture)
     {
-        player.playerPosition = {SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f};
-        player.playerSize = {PLAYER_SIZE, PLAYER_SIZE};
-        player.playerDirection = PlayerDirection::Right;
+        player.position = {SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f};
+        player.size = {PLAYER_SIZE, PLAYER_SIZE};
+        player.direction = PlayerDirection::Right;
 
-        player.playerSprite.setTexture(game.playerTexture);
-        setSpriteSize(player.playerSprite, PLAYER_SIZE, PLAYER_SIZE);
-        setSpriteRelativeOrigin(player.playerSprite, 0.5f, 0.5f);
+        player.sprite.setTexture(playerTexture);
+        setSpriteSize(player.sprite, player.size);
+        setSpriteRelativeOrigin(player.sprite, CENTER, CENTER);
     }
 
     void DrawPlayer(Player& player, sf::RenderWindow& window)
     {
-        player.playerSprite.setPosition(player.playerPosition.x, player.playerPosition.y);
-        window.draw(player.playerSprite);
+        player.sprite.setPosition(player.position.x, player.position.y);
+        window.draw(player.sprite);
     }
 }

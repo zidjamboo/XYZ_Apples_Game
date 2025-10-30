@@ -7,12 +7,12 @@ namespace ApplesGame
 {
     struct Rock
     {
-        Position2D rockPosition;
-        Size2D rocksSize;
-        sf::RectangleShape rockShape;
+        Position2D position;
+        Size2D size;
+        sf::Sprite sprite;
     };
 
     struct Game;
-    void InitRocks(Rock (&rocks)[NUM_ROCKS]);
+    void InitRocks(Rock (&rocks)[NUM_ROCKS], sf::Texture& rockTexture);
     void DrawRocks(Rock (&rocks)[NUM_ROCKS], sf::RenderWindow& window);
 }

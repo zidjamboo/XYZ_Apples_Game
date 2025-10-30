@@ -15,8 +15,10 @@ namespace ApplesGame
     constexpr int NUM_APPLES = 20;
     constexpr float APPLE_SIZE = 20.f;
 
-    constexpr int NUM_ROCKS = 3;
-    constexpr float ROCK_SIZE = 40.f;
+    constexpr int NUM_ROCKS = 5;
+    constexpr float ROCK_SIZE = 30.f;
 
     constexpr float INITIAL_PAUSE_TIME = 3.f;
+
+    constexpr float CENTER = 0.5f;
 }

@@ -9,8 +9,8 @@ namespace
         for (int i = 0; i < NUM_ROCKS; ++i)
         {
             if (IsRectanglesCollide(
-                    game.player.playerPosition, game.player.playerSize,
-                    game.rocks[i].rockPosition, game.rocks[i].rocksSize)
+                    game.player.position, game.player.size,
+                    game.rocks[i].position, game.rocks[i].size)
             )
             {
                 return true;
@@ -23,10 +23,10 @@ namespace
     bool isCollapsedWithBorder(ApplesGame::Game& game)
     {
         using namespace ApplesGame;
-        if (game.player.playerPosition.x - game.player.playerSize.x / 2.f < 0 || game.player.playerPosition.x + game.
-             player.playerSize.x / 2.f > SCREEN_WIDTH ||
-             game.player.playerPosition.y - game.player.playerSize.y / 2.f < 0 || game.player.playerPosition.y + game.
-             player.playerSize.y / 2.f > SCREEN_HEIGHT)
+        if (game.player.position.x - game.player.size.x / 2.f < 0 || game.player.position.x + game.
+             player.size.x / 2.f > SCREEN_WIDTH ||
+             game.player.position.y - game.player.size.y / 2.f < 0 || game.player.position.y + game.
+             player.size.y / 2.f > SCREEN_HEIGHT)
         {
             return true;
         }

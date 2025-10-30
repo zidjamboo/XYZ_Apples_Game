@@ -11,15 +11,15 @@ namespace ApplesGame
 
     struct Player
     {
-        Position2D playerPosition;
-        Size2D playerSize;
-        float playerSpeed = 0.f;
-        PlayerDirection playerDirection = PlayerDirection::Right;
-        sf::Sprite playerSprite;
+        Position2D position;
+        Size2D size;
+        float speed = 0.f;
+        PlayerDirection direction = PlayerDirection::Right;
+        sf::Sprite sprite;
     };
 
     struct Game;
 
-    void InitPlayer(Player& player, const Game& game);
+    void InitPlayer(Player& player, const sf::Texture& playerTexture);
     void DrawPlayer(Player& player, sf::RenderWindow& window);
 }

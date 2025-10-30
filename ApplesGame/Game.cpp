@@ -1,6 +1,8 @@
 ﻿#include "Game.h"
 #include <cassert>
 
+#include "Textures.h"
+
 namespace
 {
     void HandleInput(ApplesGame::PlayerDirection& playerDirection)
@@ -27,27 +29,27 @@ namespace
     void SwitchDirection(ApplesGame::Player& player, const float& deltaTime)
     {
         using namespace ApplesGame;
-        const PlayerDirection& playerDirection = player.playerDirection;
+        const PlayerDirection& playerDirection = player.direction;
         switch (playerDirection)
         {
         case PlayerDirection::Right:
             {
-                player.playerPosition.x += player.playerSpeed * deltaTime;
+                player.position.x += player.speed * deltaTime;
                 break;
             }
         case PlayerDirection::UP:
             {
-                player.playerPosition.y -= player.playerSpeed * deltaTime;
+                player.position.y -= player.speed * deltaTime;
                 break;
             }
         case PlayerDirection::Left:
             {
-                player.playerPosition.x -= player.playerSpeed * deltaTime;
+                player.position.x -= player.speed * deltaTime;
                 break;
             }
         case PlayerDirection::Down:
             {
-                player.playerPosition.y += player.playerSpeed * deltaTime;
+                player.position.y += player.speed * deltaTime;
                 break;
             }
         }
@@ -56,12 +58,12 @@ namespace
     void RotatePlayer(ApplesGame::Player& player)
     {
         using namespace ApplesGame;
-        const PlayerDirection& playerDirection = player.playerDirection;
-        const Size2D playerSize = player.playerSize;
-        sf::Sprite& sprite = player.playerSprite;
+        const PlayerDirection& playerDirection = player.direction;
+        const Size2D playerSize = player.size;
+        sf::Sprite& sprite = player.sprite;
         if (playerDirection == PlayerDirection::Right)
         {
-            setSpriteSize(sprite, playerSize.x, playerSize.y);
+            setSpriteSize(sprite, playerSize);
             sprite.setRotation(0.f);
         }
         else if (playerDirection == PlayerDirection::Down)
@@ -70,7 +72,7 @@ namespace
         }
         else if (playerDirection == PlayerDirection::Left)
         {
-            setSpriteSize(sprite, playerSize.x, -playerSize.y);
+            setSpriteSize(sprite, {playerSize.x, -playerSize.y});
             sprite.setRotation(180.f);
         }
         else if (playerDirection == PlayerDirection::UP)
@@ -82,43 +84,47 @@ namespace
 
 namespace ApplesGame
 {
-    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition)
+    void MoveObject(sf::Sprite& sprite, Position2D& position)
     {
-        objectPosition = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
-        objectShape.setPosition(objectPosition.x, objectPosition.y);
+        position = GetRandomPositionInScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+        sprite.setPosition(position.x, position.y);
     }
 
     void RestartGame(Game& game)
     {
-        game.player.playerPosition.x = SCREEN_WIDTH / 2.f;
-        game.player.playerPosition.y = SCREEN_HEIGHT / 2.f;
-        game.player.playerSprite.setPosition(game.player.playerPosition.x, game.player.playerPosition.y);
-        game.player.playerSpeed = INITIAL_SPEED;
-        game.player.playerDirection = PlayerDirection::Right;
+        game.player.position.x = SCREEN_WIDTH / 2.f;
+        game.player.position.y = SCREEN_HEIGHT / 2.f;
+        game.player.sprite.setPosition(game.player.position.x, game.player.position.y);
+        game.player.speed = INITIAL_SPEED;
+        game.player.direction = PlayerDirection::Right;
 
         for (Apple& apple : game.apples)
         {
-            MoveObject(apple.appleShape, apple.applePosition);
+            MoveObject(apple.sprite, apple.position);
         }
 
         for (Rock& rock : game.rocks)
         {
-            MoveObject(rock.rockShape, rock.rockPosition);
+            MoveObject(rock.sprite, rock.position);
         }
     }
 
     void InitGame(Game& game)
     {
-        assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "/Player.png"));
-        InitPlayer(game.player, game);
-        InitApples(game.apples);
-        InitRocks(game.rocks);
+        assert(game.textures.player.loadFromFile(RESOURCES_PATH + "\\Player.png"));
+        assert(game.textures.apple.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
+        assert(game.textures.rock.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
+
+        InitPlayer(game.player, game.textures.player);
+        InitApples(game.apples, game.textures.apple);
+        InitRocks(game.rocks, game.textures.rock);
+
         RestartGame(game);
     }
 
     void UpdateGame(Game& game, float& deltaTime)
     {
-        HandleInput(game.player.playerDirection);
+        HandleInput(game.player.direction);
         SwitchDirection(game.player, deltaTime);
         RotatePlayer(game.player);
     }

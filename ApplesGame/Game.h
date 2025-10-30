@@ -5,6 +5,7 @@
 #include "Rock.h"
 #include "Math.h"
 #include "Constants.h"
+#include "Textures.h"
 
 namespace ApplesGame
 {
@@ -13,22 +14,22 @@ namespace ApplesGame
         // Player data
         Player player;
 
-        //Apples data
+        // Apples data
         Apple apples[NUM_APPLES];
 
-        //Rocks data
+        // Rocks data
         Rock rocks[NUM_ROCKS];
 
-        //Global game data
+        // Global game data
         int numEatenApples = 0;
         bool isGameOver = false;
         float pauseTimeLeft = 0.f;
 
-        // textures
-        sf::Texture playerTexture;
+        // Textures
+        Textures textures;
     };
 
-    void MoveObject(sf::Shape& objectShape, Position2D& objectPosition);
+    void MoveObject(sf::Sprite& sprite, Position2D& position);
     void RestartGame(Game& game);
     void InitGame(Game& game);
     void UpdateGame(Game& game, float& deltaTime);

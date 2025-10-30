@@ -15,19 +15,6 @@ namespace ApplesGame
         return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
     }
 
-    bool isCirclesCollide(
-        Position2D circle1Position, CircleSize circle1Size, Position2D circle2Position, CircleSize circle2Size)
-    {
-        float dx = circle1Position.x - circle2Position.x;
-        float dy = circle1Position.y - circle2Position.y;
-        float squareDistance = dx * dx + dy *dy;
-
-        float diameterSum = circle1Size.diameter + circle2Size.diameter;
-        float squareRadiusSum = diameterSum * diameterSum / 4;
-
-        return squareDistance <= squareRadiusSum;
-    }
-
     float GetRandomFloat(const float& min, const float& max)
     {
         return min + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * max;
@@ -43,10 +30,10 @@ namespace ApplesGame
         return result;
     }
 
-    void setSpriteSize(sf::Sprite& sprite, const float& desiredWidth, const float& desiredHeight)
+    void setSpriteSize(sf::Sprite& sprite, const Size2D& size)
     {
         sf::FloatRect localBounds = sprite.getLocalBounds();
-        sf::Vector2f scale = { desiredWidth / localBounds.width , desiredHeight / localBounds.height};
+        sf::Vector2f scale = { size.x / localBounds.width , size.y / localBounds.height};
         sprite.setScale(scale);
     }
 

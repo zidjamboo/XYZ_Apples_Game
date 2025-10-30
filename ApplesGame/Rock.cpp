@@ -3,15 +3,14 @@
 
 namespace ApplesGame
 {
-    void InitRocks(Rock (&rocks)[3])
+    void InitRocks(Rock (&rocks)[NUM_ROCKS], sf::Texture& rockTexture)
     {
         for (Rock& rock : rocks)
         {
-            rock.rocksSize = {ROCK_SIZE, ROCK_SIZE};
-            sf::RectangleShape& rockShape = rock.rockShape;
-            rockShape.setSize(sf::Vector2f(rock.rocksSize.x, rock.rocksSize.y));
-            rockShape.setFillColor(sf::Color::Cyan);
-            rockShape.setOrigin(rock.rocksSize.x / 2.f, rock.rocksSize.y / 2.f);
+            rock.size = {ROCK_SIZE, ROCK_SIZE};
+            rock.sprite.setTexture(rockTexture);
+            setSpriteSize(rock.sprite, rock.size);
+            setSpriteRelativeOrigin(rock.sprite, CENTER, CENTER);
         }
     }
 
@@ -19,7 +18,7 @@ namespace ApplesGame
     {
         for (Rock& rock : rocks)
         {
-            window.draw(rock.rockShape);
+            window.draw(rock.sprite);
         }
     }
 }

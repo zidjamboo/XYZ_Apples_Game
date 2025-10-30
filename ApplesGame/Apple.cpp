@@ -3,15 +3,14 @@
 
 namespace ApplesGame
 {
-    void InitApples(Apple (&apples)[20])
+    void InitApples(Apple (&apples)[NUM_APPLES], const sf::Texture& appleTexture)
     {
         for (Apple& apple : apples)
         {
-            apple.appleSize.diameter = APPLE_SIZE;
-            sf::CircleShape& appleShape = apple.appleShape;
-            appleShape.setRadius(apple.appleSize.diameter / 2.f);
-            appleShape.setFillColor(sf::Color::Green);
-            appleShape.setOrigin(apple.appleSize.diameter / 2.f, apple.appleSize.diameter / 2.f);
+            apple.size = {APPLE_SIZE, APPLE_SIZE};
+            apple.sprite.setTexture(appleTexture);
+            setSpriteSize(apple.sprite,apple.size);
+            setSpriteRelativeOrigin(apple.sprite, CENTER, CENTER);
         }
     }
 
@@ -19,7 +18,7 @@ namespace ApplesGame
     {
         for (Apple& apple : apples)
         {
-            window.draw(apple.appleShape);
+            window.draw(apple.sprite);
         }
     }
 
@@ -27,16 +26,16 @@ namespace ApplesGame
     {
         for (Apple& apple : game.apples)
         {
-            if (isCirclesCollide(
-                    game.player.playerPosition,
-                    {game.player.playerSize.x},
-                    apple.applePosition,
-                    apple.appleSize)
+            if (IsRectanglesCollide(
+                    game.player.position,
+                    game.player.size,
+                    apple.position,
+                    apple.size)
             )
             {
-                MoveObject(apple.appleShape, apple.applePosition);
+                MoveObject(apple.sprite, apple.position);
                 ++game.numEatenApples;
-                game.player.playerSpeed += ACCELERATION;
+                game.player.speed += ACCELERATION;
             }
         }
     }
