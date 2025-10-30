@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Game.h"
-#include "Math.h"
+#include "GameFinish.h"
 #include "Constants.h"
 
 
