@@ -4,14 +4,15 @@
 
 namespace
 {
-    bool isCollapsedWithRock(ApplesGame::Game& game)
+    using namespace ApplesGame;
+
+    bool isCollapsedWithRock(const Player& player, const Rock (&rocks)[NUM_ROCKS])
     {
-        using namespace ApplesGame;
-        for (int i = 0; i < NUM_ROCKS; ++i)
+        for (const Rock& rock : rocks)
         {
             if (IsRectanglesCollide(
-                    game.player.position, game.player.size,
-                    game.rocks[i].position, game.rocks[i].size)
+                    player.position, player.size,
+                    rock.position, rock.size)
             )
             {
                 return true;
@@ -21,12 +22,11 @@ namespace
         return false;
     }
 
-    bool isCollapsedWithBorder(ApplesGame::Game& game)
+    bool isCollapsedWithBorder(const Player& player)
     {
-        using namespace ApplesGame;
-        if (game.player.position.x - game.player.size.x / 2.f < 0 || game.player.position.x + game.
+        if (player.position.x - player.size.x / 2.f < 0 || player.position.x +
              player.size.x / 2.f > SCREEN_WIDTH ||
-             game.player.position.y - game.player.size.y / 2.f < 0 || game.player.position.y + game.
+             player.position.y - player.size.y / 2.f < 0 || player.position.y +
              player.size.y / 2.f > SCREEN_HEIGHT)
         {
             return true;
@@ -38,29 +38,32 @@ namespace
 
 namespace ApplesGame
 {
-    void StartPause(Game& game)
+    bool isGameOver = false;
+    float pauseTimeLeft = 0.f;
+
+    void StartPause()
     {
-        game.pauseTimeLeft = INITIAL_PAUSE_TIME;
-        game.isGameOver = false;
+        pauseTimeLeft = INITIAL_PAUSE_TIME;
+        isGameOver = false;
     }
 
-    bool isNeedPause(Game& game, float deltaTime)
+    bool isNeedPause(float deltaTime)
     {
-        if (game.pauseTimeLeft > 0.f)
+        if (pauseTimeLeft > 0.f)
         {
-            game.pauseTimeLeft -= deltaTime;
+            pauseTimeLeft -= deltaTime;
             return true;
         }
 
         return false;
     }
 
-    void CheckIfGameIsOver(Game& game)
+    void CheckIfGameIsOver(sf::Sound deathSound, const Player& player, const Rock (&rocks)[NUM_ROCKS])
     {
-        if (isCollapsedWithRock(game) || isCollapsedWithBorder(game))
+        if (isCollapsedWithRock(player, rocks) || isCollapsedWithBorder(player))
         {
-            game.isGameOver = true;
-            game.sounds.deathSound.play();
+            isGameOver = true;
+            deathSound.play();
         }
     }
 }

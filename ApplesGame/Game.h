@@ -23,8 +23,6 @@ namespace ApplesGame
 
         // Global game data
         int numEatenApples = 0;
-        bool isGameOver = false;
-        float pauseTimeLeft = 0.f;
 
         // Textures
         Textures textures;

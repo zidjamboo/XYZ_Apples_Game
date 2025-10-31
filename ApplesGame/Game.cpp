@@ -6,9 +6,10 @@
 
 namespace
 {
-    void HandleInput(ApplesGame::PlayerDirection& playerDirection)
+    using namespace ApplesGame;
+
+    void HandleInput(PlayerDirection& playerDirection)
     {
-        using namespace ApplesGame;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             playerDirection = PlayerDirection::Right;
@@ -27,9 +28,8 @@ namespace
         }
     }
 
-    void SwitchDirection(ApplesGame::Player& player, const float& deltaTime)
+    void SwitchDirection(Player& player, const float& deltaTime)
     {
-        using namespace ApplesGame;
         const PlayerDirection& playerDirection = player.direction;
         switch (playerDirection)
         {
@@ -56,9 +56,8 @@ namespace
         }
     }
 
-    void RotatePlayer(ApplesGame::Player& player)
+    void RotatePlayer(Player& player)
     {
-        using namespace ApplesGame;
         const PlayerDirection& playerDirection = player.direction;
         const Size2D playerSize = player.size;
         sf::Sprite& sprite = player.sprite;
@@ -79,6 +78,26 @@ namespace
         else if (playerDirection == PlayerDirection::UP)
         {
             sprite.setRotation(270.f);
+        }
+    }
+
+    void EatPossibleApples(Game& game)
+    {
+        for (Apple& apple : game.apples)
+        {
+            if (IsRectanglesCollide(
+                    game.player.position,
+                    game.player.size,
+                    apple.position,
+                    apple.size)
+            )
+            {
+                MoveObject(apple.sprite, apple.position);
+                ++game.numEatenApples;
+                game.player.speed += ACCELERATION;
+
+                game.sounds.appleEatSound.play();
+            }
         }
     }
 }
@@ -142,6 +161,7 @@ namespace ApplesGame
         HandleInput(game.player.direction);
         SwitchDirection(game.player, deltaTime);
         RotatePlayer(game.player);
+        EatPossibleApples(game);
     }
 
     void DrawGame(Game& game, sf::RenderWindow& window)

@@ -1,9 +1,15 @@
 ﻿#pragma once
+#include <SFML/Audio.hpp>
+#include "Player.h"
+#include "Rock.h"
+#include "Constants.h"
 
 namespace ApplesGame
 {
-    struct Game;
-    void StartPause(Game& game);
-    bool isNeedPause(Game& game, float deltaTime);
-    void CheckIfGameIsOver(Game& game);
+    extern bool isGameOver;
+    extern float pauseTimeLeft;
+
+    void StartPause();
+    bool isNeedPause(float deltaTime);
+    void CheckIfGameIsOver(sf::Sound deathSound, const Player& player, const Rock (&rocks)[NUM_ROCKS]);
 }

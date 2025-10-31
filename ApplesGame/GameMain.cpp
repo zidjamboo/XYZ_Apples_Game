@@ -36,20 +36,19 @@ int main()
         float deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
-        if (game.isGameOver)
+        if (isGameOver)
         {
             RestartGame(game);
-            StartPause(game);
+            StartPause();
         }
 
-        if (isNeedPause(game, deltaTime))
+        if (isNeedPause(deltaTime))
         {
             continue;
         }
 
         UpdateGame(game, deltaTime);
-        EatPossibleApples(game);
-        CheckIfGameIsOver(game);
+        CheckIfGameIsOver(game.sounds.deathSound, game.player, game.rocks);
         DrawGame(game, window);
     }
 

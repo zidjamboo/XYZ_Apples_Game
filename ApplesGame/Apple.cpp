@@ -22,24 +22,4 @@ namespace ApplesGame
             window.draw(apple.sprite);
         }
     }
-
-    void EatPossibleApples(Game& game)
-    {
-        for (Apple& apple : game.apples)
-        {
-            if (IsRectanglesCollide(
-                    game.player.position,
-                    game.player.size,
-                    apple.position,
-                    apple.size)
-            )
-            {
-                MoveObject(apple.sprite, apple.position);
-                ++game.numEatenApples;
-                game.player.speed += ACCELERATION;
-
-                game.sounds.appleEatSound.play();
-            }
-        }
-    }
 }

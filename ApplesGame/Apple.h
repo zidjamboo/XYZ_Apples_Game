@@ -15,5 +15,4 @@ namespace ApplesGame
     struct Game;
     void InitApples(Apple (&apples)[NUM_APPLES], const sf::Texture& appleTexture);
     void DrawApples(Apple (&apples)[NUM_APPLES], sf::RenderWindow& window);
-    void EatPossibleApples(Game& game);
 }
