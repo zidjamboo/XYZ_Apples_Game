@@ -48,7 +48,6 @@ int main()
         }
 
         UpdateGame(game, deltaTime);
-        CheckIfGameIsOver(game.sounds.deathSound, game.player, game.rocks);
         DrawGame(game, window);
     }
 

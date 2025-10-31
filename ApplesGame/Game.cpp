@@ -1,8 +1,8 @@
 ﻿#include "Game.h"
 #include <SFML/Audio.hpp>
 #include <cassert>
-
 #include "Textures.h"
+#include "GameFinish.h"
 
 namespace
 {
@@ -162,6 +162,7 @@ namespace ApplesGame
         SwitchDirection(game.player, deltaTime);
         RotatePlayer(game.player);
         EatPossibleApples(game);
+        CheckIfGameIsOver(game.sounds.deathSound, game.player, game.rocks);
     }
 
     void DrawGame(Game& game, sf::RenderWindow& window)
