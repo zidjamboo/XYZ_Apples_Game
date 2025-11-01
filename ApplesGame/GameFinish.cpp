@@ -58,12 +58,13 @@ namespace ApplesGame
         return false;
     }
 
-    void CheckIfGameIsOver(sf::Sound deathSound, const Player& player, const Rock (&rocks)[NUM_ROCKS])
+    void CheckIfGameIsOver(Game& game)
     {
-        if (isCollapsedWithRock(player, rocks) || isCollapsedWithBorder(player))
+        if (isCollapsedWithRock(game.player, game.rocks) || isCollapsedWithBorder(game.player))
         {
             isGameOver = true;
-            deathSound.play();
+            game.finalScore = game.numEatenApples;
+            game.sounds.deathSound.play();
         }
     }
 }

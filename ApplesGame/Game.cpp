@@ -75,6 +75,7 @@ namespace ApplesGame
 
         // Init fonts
         assert(game.fonts.robotoRegular.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Regular.ttf"));
+        assert(game.fonts.robotoBold.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Bold.ttf"));
 
         sf::SoundBuffer& deathBuffer = game.sounds.deathBuffer;
         assert(deathBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
@@ -101,7 +102,11 @@ namespace ApplesGame
         RotatePlayer(game.player);
         EatPossibleApples(game);
         UpdateScore(game.ui, game.numEatenApples);
-        CheckIfGameIsOver(game.sounds.deathSound, game.player, game.rocks);
+        CheckIfGameIsOver(game);
+        if (isGameOver)
+        {
+            UpdateFinalScore(game.ui, game.finalScore);
+        }
     }
 
     void DrawGame(Game& game, sf::RenderWindow& window)
@@ -114,11 +119,12 @@ namespace ApplesGame
             DrawPlayer(game.player, window);
             DrawApples(game.apples, window);
             DrawRocks(game.rocks, window);
-            DrawUI(game.ui, window);
+            DrawScore(game.ui, window);
         }
         else
         {
             DrawBackground(game.deathBackground, window);
+            DrawFinalScore(game.ui, window);
         }
 
         window.display();

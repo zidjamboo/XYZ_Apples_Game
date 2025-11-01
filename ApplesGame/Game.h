@@ -25,6 +25,7 @@ namespace ApplesGame
 
         // Global game data
         int numEatenApples = 0;
+        int finalScore = 0;
 
         // Background
         Background mainBackground;

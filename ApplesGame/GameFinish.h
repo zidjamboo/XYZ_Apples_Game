@@ -11,5 +11,5 @@ namespace ApplesGame
 
     void StartPause();
     bool isNeedPause(float deltaTime);
-    void CheckIfGameIsOver(sf::Sound deathSound, const Player& player, const Rock (&rocks)[NUM_ROCKS]);
+    void CheckIfGameIsOver(Game& game);
 }
