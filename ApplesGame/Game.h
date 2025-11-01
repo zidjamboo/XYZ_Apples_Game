@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Apple.h"
 #include "Rock.h"
+#include "Background.h"
 #include "Math.h"
 #include "Constants.h"
 #include "Sounds.h"
@@ -23,6 +24,9 @@ namespace ApplesGame
 
         // Global game data
         int numEatenApples = 0;
+
+        // Background
+        Background mainBackground;
 
         // Textures
         Textures textures;

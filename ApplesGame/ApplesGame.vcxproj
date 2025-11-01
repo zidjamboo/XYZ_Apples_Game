@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Apple.cpp" />
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameFinish.cpp" />
     <ClCompile Include="GameMain.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apple.h" />
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameFinish.h" />

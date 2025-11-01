@@ -8,5 +8,6 @@ namespace ApplesGame
         sf::Texture player;
         sf::Texture apple;
         sf::Texture rock;
+        sf::Texture mainBackground;
     };
 }
