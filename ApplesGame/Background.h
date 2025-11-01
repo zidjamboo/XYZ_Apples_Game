@@ -9,6 +9,6 @@ namespace ApplesGame
 
     };
 
-    void InitBackground(Background& background, sf::Texture& texture);
+    void InitBackground(Background& background, const sf::Texture& texture);
     void DrawBackground(const Background& background, sf::RenderWindow& window);
 }

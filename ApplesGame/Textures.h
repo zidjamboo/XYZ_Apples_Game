@@ -9,5 +9,6 @@ namespace ApplesGame
         sf::Texture apple;
         sf::Texture rock;
         sf::Texture mainBackground;
+        sf::Texture deathBackground;
     };
 }

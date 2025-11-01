@@ -137,6 +137,7 @@ namespace ApplesGame
         assert(game.textures.apple.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
         assert(game.textures.rock.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
         assert(game.textures.mainBackground.loadFromFile(RESOURCES_PATH + "\\Background.jpg"));
+        assert(game.textures.deathBackground.loadFromFile(RESOURCES_PATH + "\\GameOverBackground.jpg"));
 
         // Init sounds
         sf::SoundBuffer& appleEatBuffer = game.sounds.appleEatBuffer;
@@ -155,6 +156,7 @@ namespace ApplesGame
         InitApples(game.apples, game.textures.apple);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
+        InitBackground(game.deathBackground, game.textures.deathBackground);
 
         RestartGame(game);
     }
@@ -172,10 +174,17 @@ namespace ApplesGame
     {
         window.clear();
 
-        DrawBackground(game.mainBackground, window);
-        DrawPlayer(game.player, window);
-        DrawApples(game.apples, window);
-        DrawRocks(game.rocks, window);
+        if (!isGameOver)
+        {
+            DrawBackground(game.mainBackground, window);
+            DrawPlayer(game.player, window);
+            DrawApples(game.apples, window);
+            DrawRocks(game.rocks, window);
+        }
+        else
+        {
+            DrawBackground(game.deathBackground, window);
+        }
 
         window.display();
     }
