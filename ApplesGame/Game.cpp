@@ -46,6 +46,8 @@ namespace ApplesGame
         game.player.speed = INITIAL_SPEED;
         game.player.direction = PlayerDirection::Right;
 
+        game.numEatenApples = 0;
+
         for (Apple& apple : game.apples)
         {
             MoveObject(apple.sprite, apple.position);
@@ -71,6 +73,9 @@ namespace ApplesGame
         assert(appleEatBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
         game.sounds.appleEatSound.setBuffer(appleEatBuffer);
 
+        // Init fonts
+        assert(game.fonts.robotoRegular.loadFromFile(RESOURCES_PATH + "\\Fonts\\Roboto-Regular.ttf"));
+
         sf::SoundBuffer& deathBuffer = game.sounds.deathBuffer;
         assert(deathBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
         game.sounds.deathSound.setBuffer(deathBuffer);
@@ -84,6 +89,7 @@ namespace ApplesGame
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
         InitBackground(game.deathBackground, game.textures.deathBackground);
+        InitUI(game.ui, game.fonts);
 
         RestartGame(game);
     }
@@ -94,6 +100,7 @@ namespace ApplesGame
         SwitchDirection(game.player, deltaTime);
         RotatePlayer(game.player);
         EatPossibleApples(game);
+        UpdateScore(game.ui, game.numEatenApples);
         CheckIfGameIsOver(game.sounds.deathSound, game.player, game.rocks);
     }
 
@@ -107,6 +114,7 @@ namespace ApplesGame
             DrawPlayer(game.player, window);
             DrawApples(game.apples, window);
             DrawRocks(game.rocks, window);
+            DrawUI(game.ui, window);
         }
         else
         {

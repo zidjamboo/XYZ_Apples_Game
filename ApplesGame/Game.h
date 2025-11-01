@@ -8,6 +8,7 @@
 #include "Constants.h"
 #include "Sounds.h"
 #include "Textures.h"
+#include "UI.h"
 
 namespace ApplesGame
 {
@@ -34,6 +35,10 @@ namespace ApplesGame
 
         // Sounds
         Sounds sounds;
+
+        // UI
+        Fonts fonts;
+        UI ui;
     };
 
     void MoveObject(sf::Sprite& sprite, Position2D& position);
