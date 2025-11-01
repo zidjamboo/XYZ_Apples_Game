@@ -22,4 +22,8 @@ namespace ApplesGame
 
     void InitPlayer(Player& player, const sf::Texture& playerTexture);
     void DrawPlayer(Player& player, sf::RenderWindow& window);
+
+    void HandleInput(PlayerDirection& playerDirection);
+    void SwitchDirection(Player& player, const float& deltaTime);
+    void RotatePlayer(Player& player);
 }
