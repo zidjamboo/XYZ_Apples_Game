@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <SFML/Audio.hpp>
-#include "Player.h"
-#include "Rock.h"
-#include "Constants.h"
+#include "../GameObjects/Player.h"
+#include "../GameObjects/Rock.h"
+#include "../Settings/Constants.h"
 
 namespace ApplesGame
 {

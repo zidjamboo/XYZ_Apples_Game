@@ -1,5 +1,5 @@
 ﻿#include "Rock.h"
-#include "Game.h"
+#include "../Game/Game.h"
 
 namespace ApplesGame
 {

@@ -1,5 +1,5 @@
-﻿#include "GameFinish.h"
-#include "Game.h"
+﻿#include "Game/GameFinish.h"
+#include "Game/Game.h"
 #include "SFML/Audio/Sound.hpp"
 
 namespace

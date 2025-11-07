@@ -1,8 +1,8 @@
 ﻿#include "Game.h"
 #include <SFML/Audio.hpp>
 #include <cassert>
-#include "Background.h"
-#include "Textures.h"
+#include "../UI/Background.h"
+#include "../Settings/Textures.h"
 #include "GameFinish.h"
 
 namespace
@@ -49,6 +49,8 @@ namespace ApplesGame
 
         game.numEatenApples = 0;
 
+        InitApples(game.apples, game.textures.apple);
+
         for (int i = 0; i < game.apples.size; ++i)
         {
             Apple& apple = game.apples.arr[i];
@@ -88,7 +90,6 @@ namespace ApplesGame
 
         // Init game
         InitPlayer(game.player, game.textures.player);
-        InitApples(game.apples, game.textures.apple);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
         InitBackground(game.deathBackground, game.textures.deathBackground);
@@ -134,6 +135,6 @@ namespace ApplesGame
 
     void DeinitializeGame(Game& game)
     {
-        delete [] game.apples.arr;
+        delete[] game.apples.arr;
     }
 }

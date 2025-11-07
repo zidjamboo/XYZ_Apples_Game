@@ -1,6 +1,6 @@
 ﻿#include "Apple.h"
 #include <SFML/Audio.hpp>
-#include "Game.h"
+#include "../Game/Game.h"
 
 namespace ApplesGame
 {

@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
-#include "Math.h"
-#include "Constants.h"
+#include "../Math/Math.h"
 
 namespace ApplesGame
 {

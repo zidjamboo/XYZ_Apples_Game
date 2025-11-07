@@ -1,7 +1,7 @@
 ﻿#include "Player.h"
 #include "Math.h"
-#include "Constants.h"
-#include "Game.h"
+#include "../Settings/Constants.h"
+#include "../Game/Game.h"
 
 namespace ApplesGame
 {

@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
-#include "Player.h"
-#include "Apple.h"
-#include "Rock.h"
-#include "Background.h"
-#include "Math.h"
-#include "Constants.h"
-#include "Sounds.h"
-#include "Textures.h"
-#include "UI.h"
+#include "../GameObjects/Player.h"
+#include "../GameObjects/Apple.h"
+#include "../GameObjects/Rock.h"
+#include "../UI/Background.h"
+#include "../Math/Math.h"
+#include "../Settings/Constants.h"
+#include "../Settings/Sounds.h"
+#include "../Settings/Textures.h"
+#include "../UI/UI.h"
 
 namespace ApplesGame
 {
@@ -40,6 +40,9 @@ namespace ApplesGame
         // UI
         Fonts fonts;
         UI ui;
+
+        // Flags
+        bool isNeedSettings = true;
     };
 
     void MoveObject(sf::Sprite& sprite, Position2D& position);

@@ -1,8 +1,8 @@
 ﻿#include "Background.h"
 #include <SFML/Graphics.hpp>
 
-#include "Constants.h"
-#include "Math.h"
+#include "../Settings/Constants.h"
+#include "../Math/Math.h"
 
 namespace ApplesGame
 {

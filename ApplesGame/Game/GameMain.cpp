@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "GameFinish.h"
-#include "Constants.h"
+#include "../Settings/Constants.h"
 
 
 int main()
