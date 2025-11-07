@@ -51,5 +51,7 @@ int main()
         DrawGame(game, window);
     }
 
+    DeinitializeGame(game);
+
     return 0;
 }

@@ -4,10 +4,14 @@
 
 namespace ApplesGame
 {
-    void InitApples(Apple (&apples)[NUM_APPLES], const sf::Texture& appleTexture)
+    void InitApples(ApplesArray& apples, const sf::Texture& appleTexture)
     {
-        for (Apple& apple : apples)
+        apples.arr = new Apple[20];
+        apples.size = 20;
+
+        for (int i = 0; i < apples.size; ++i)
         {
+            Apple& apple = apples.arr[i];
             apple.size = {APPLE_SIZE, APPLE_SIZE};
             apple.sprite.setTexture(appleTexture);
             setSpriteSize(apple.sprite,apple.size);
@@ -15,10 +19,11 @@ namespace ApplesGame
         }
     }
 
-    void DrawApples(Apple (&apples)[NUM_APPLES], sf::RenderWindow& window)
+    void DrawApples(const ApplesArray& apples, sf::RenderWindow& window)
     {
-        for (Apple& apple : apples)
+        for (int i = 0; i < apples.size; ++i)
         {
+            Apple& apple = apples.arr[i];
             window.draw(apple.sprite);
         }
     }

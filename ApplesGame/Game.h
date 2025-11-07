@@ -18,7 +18,7 @@ namespace ApplesGame
         Player player;
 
         // Apples data
-        Apple apples[NUM_APPLES];
+        ApplesArray apples;
 
         // Rocks data
         Rock rocks[NUM_ROCKS];
@@ -47,4 +47,5 @@ namespace ApplesGame
     void InitGame(Game& game);
     void UpdateGame(Game& game, float& deltaTime);
     void DrawGame(Game& game, sf::RenderWindow& window);
+    void DeinitializeGame(Game& game);
 }

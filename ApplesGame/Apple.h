@@ -12,7 +12,13 @@ namespace ApplesGame
         sf::Sprite sprite;
     };
 
+    struct ApplesArray
+    {
+        Apple* arr = nullptr;
+        int size = 0;
+    };
+
     struct Game;
-    void InitApples(Apple (&apples)[NUM_APPLES], const sf::Texture& appleTexture);
-    void DrawApples(Apple (&apples)[NUM_APPLES], sf::RenderWindow& window);
+    void InitApples(ApplesArray& apples, const sf::Texture& appleTexture);
+    void DrawApples(const ApplesArray& apples, sf::RenderWindow& window);
 }

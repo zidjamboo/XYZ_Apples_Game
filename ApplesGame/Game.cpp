@@ -11,8 +11,9 @@ namespace
 
     void EatPossibleApples(Game& game)
     {
-        for (Apple& apple : game.apples)
+        for (int i = 0; i < game.apples.size; ++i)
         {
+            Apple& apple = game.apples.arr[i];
             if (IsRectanglesCollide(
                     game.player.position,
                     game.player.size,
@@ -48,8 +49,9 @@ namespace ApplesGame
 
         game.numEatenApples = 0;
 
-        for (Apple& apple : game.apples)
+        for (int i = 0; i < game.apples.size; ++i)
         {
+            Apple& apple = game.apples.arr[i];
             MoveObject(apple.sprite, apple.position);
         }
 
@@ -128,5 +130,10 @@ namespace ApplesGame
         }
 
         window.display();
+    }
+
+    void DeinitializeGame(Game& game)
+    {
+        delete [] game.apples.arr;
     }
 }
