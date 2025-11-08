@@ -11,6 +11,6 @@ namespace ApplesGame
     extern float pauseTimeLeft;
 
     void StartPause();
-    bool isNeedPause(float deltaTime);
+    bool IsNeedPause(float deltaTime);
     void CheckIfGameIsOver(Game& game);
 }

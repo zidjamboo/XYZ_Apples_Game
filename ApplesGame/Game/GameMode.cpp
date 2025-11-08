@@ -80,7 +80,7 @@ namespace ApplesGame
         isNeedSetupGame = true;
         SetFlagEnabled(GameMode::INFINITE, false);
         SetFlagEnabled(GameMode::ACCELERATION, false);
-        SetFlagEnabled(GameMode::HARDMODE, false);
+        SetFlagEnabled(GameMode::HARD_MODE, false);
     }
 
     void InitSetupMenu(const Game& game)
@@ -105,16 +105,27 @@ namespace ApplesGame
             lastClickTime = 0;
         }
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            isNeedSetupGame = false;
+        }
+
         sf::Int32 clickTime = clock.getElapsedTime().asMilliseconds();
-        if (clickTime - lastClickTime < 300)
+        if (clickTime - lastClickTime < 500)
         {
             return;
         }
 
-        if (event.type == sf::Event::KeyPressed &&
-            (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             lastClickTime = clickTime;
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+        {
+            SetFlagEnabled(selectedMode, !IsFlagEnabled(selectedMode));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -142,7 +153,7 @@ namespace ApplesGame
 
         UpdateTextColor(infinite, selectedMode == GameMode::INFINITE);
         UpdateTextColor(acceleration, selectedMode == GameMode::ACCELERATION);
-        UpdateTextColor(hardMode, selectedMode == GameMode::HARDMODE);
+        UpdateTextColor(hardMode, selectedMode == GameMode::HARD_MODE);
     }
 
     void DrawSetupMenu(sf::RenderWindow& window)
@@ -151,8 +162,18 @@ namespace ApplesGame
         window.draw(infinite);
         window.draw(acceleration);
         window.draw(hardMode);
-        window.draw(infiniteCheckmark);
-        window.draw(accelerationCheckmark);
-        window.draw(hardModeCheckmark);
+
+        if (IsFlagEnabled(GameMode::INFINITE))
+        {
+            window.draw(infiniteCheckmark);
+        }
+        if (IsFlagEnabled(GameMode::ACCELERATION))
+        {
+            window.draw(accelerationCheckmark);
+        }
+        if (IsFlagEnabled(GameMode::HARD_MODE))
+        {
+            window.draw(hardModeCheckmark);
+        }
     }
 }

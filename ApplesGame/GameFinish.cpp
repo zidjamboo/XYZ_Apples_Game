@@ -1,5 +1,6 @@
 ﻿#include "Game/GameFinish.h"
 #include "Game/Game.h"
+#include "Game/GameMode.h"
 #include "SFML/Audio/Sound.hpp"
 
 namespace
@@ -38,17 +39,16 @@ namespace
 
 namespace ApplesGame
 {
-    bool isGameOver = false;
+    bool isGameOver = true;
     bool isWin = false;
     float pauseTimeLeft = 0.f;
 
     void StartPause()
     {
         pauseTimeLeft = INITIAL_PAUSE_TIME;
-        isGameOver = false;
     }
 
-    bool isNeedPause(float deltaTime)
+    bool IsNeedPause(float deltaTime)
     {
         if (pauseTimeLeft > 0.f)
         {
@@ -61,20 +61,27 @@ namespace ApplesGame
 
     void CheckIfGameIsOver(Game& game)
     {
-        if (game.apples.size == game.numEatenApples)
+        if (!IsFlagEnabled(GameMode::INFINITE) && game.apples.size == game.numEatenApples)
         {
             isWin = true;
             isGameOver = true;
+            isNeedSetupGame = true;
             game.finalScore = game.numEatenApples;
+
+            StartPause();
 
             return;
         }
 
         if (isCollapsedWithRock(game.player, game.rocks) || isCollapsedWithBorder(game.player))
         {
+            isWin = false;
             isGameOver = true;
+            isNeedSetupGame = true;
             game.finalScore = game.numEatenApples;
             game.sounds.deathSound.play();
+
+            StartPause();
         }
     }
 }

@@ -37,6 +37,11 @@ int main()
         float deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
+        if (IsNeedPause(deltaTime))
+        {
+            continue;
+        }
+
         if (isNeedSetupGame)
         {
             window.clear();
@@ -49,12 +54,6 @@ int main()
         if (isGameOver)
         {
             RestartGame(game);
-            StartPause();
-        }
-
-        if (isNeedPause(deltaTime))
-        {
-            continue;
         }
 
         UpdateGame(game, deltaTime);

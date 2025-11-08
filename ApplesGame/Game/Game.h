@@ -49,7 +49,7 @@ namespace ApplesGame
     void MoveObject(sf::Sprite& sprite, Position2D& position);
     void RestartGame(Game& game);
     void InitGame(Game& game);
-    void UpdateGame(Game& game, float& deltaTime);
+    void UpdateGame(Game& game, const float& deltaTime);
     void DrawGame(Game& game, sf::RenderWindow& window);
     void DeinitializeGame(Game& game);
 }

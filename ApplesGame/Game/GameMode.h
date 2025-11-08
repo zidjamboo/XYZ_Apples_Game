@@ -10,7 +10,7 @@ namespace ApplesGame
     {
         INFINITE = 0,
         ACCELERATION = 1,
-        HARDMODE = 2
+        HARD_MODE = 2
     };
 
     struct Game;

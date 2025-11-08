@@ -80,6 +80,8 @@ namespace ApplesGame
         {
             MoveObject(rock.sprite, rock.position);
         }
+
+        isGameOver = false;
     }
 
     void InitGame(Game& game)
@@ -117,11 +119,9 @@ namespace ApplesGame
         InitBackground(game.winBackground, game.textures.winBackground);
         InitBackground(game.deathBackground, game.textures.deathBackground);
         InitUI(game.ui, game.fonts);
-
-        RestartGame(game);
     }
 
-    void UpdateGame(Game& game, float& deltaTime)
+    void UpdateGame(Game& game, const float& deltaTime)
     {
         HandleInput(game.player.direction);
         SwitchDirection(game.player, deltaTime);
