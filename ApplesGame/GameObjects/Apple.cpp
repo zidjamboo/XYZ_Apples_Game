@@ -1,13 +1,20 @@
 ﻿#include "Apple.h"
 #include <SFML/Audio.hpp>
 #include "../Game/Game.h"
+#include "../Game/GameMode.h"
 
 namespace ApplesGame
 {
     void InitApples(ApplesArray& apples, const sf::Texture& appleTexture)
     {
-        apples.arr = new Apple[20];
-        apples.size = 20;
+        int applesArraySize = 20;
+        if ((IsFlagEnabled(GameMode::INFINITE) && !IsFlagEnabled(GameMode::HARDMODE)) ||
+            (!IsFlagEnabled(GameMode::INFINITE) && IsFlagEnabled(GameMode::HARDMODE)))
+        {
+            applesArraySize = 50;
+        }
+        apples.arr = new Apple[applesArraySize];
+        apples.size = applesArraySize;
 
         for (int i = 0; i < apples.size; ++i)
         {
