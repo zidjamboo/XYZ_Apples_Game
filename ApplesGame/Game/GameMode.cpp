@@ -10,7 +10,7 @@ namespace ApplesGame
     void InitGameMode()
     {
         SetFlagEnabled(GameMode::INFINITE, false);
-        SetFlagEnabled(GameMode::ACCELERATION, true);
+        SetFlagEnabled(GameMode::ACCELERATION, false);
         SetFlagEnabled(GameMode::HARDMODE, true);
     }
 

@@ -38,7 +38,11 @@ namespace
                 }
 
                 ++game.numEatenApples;
-                game.player.speed += ACCELERATION;
+
+                if (IsFlagEnabled(GameMode::ACCELERATION))
+                {
+                    game.player.speed += ACCELERATION;
+                }
 
                 game.sounds.appleEatSound.play();
             }
