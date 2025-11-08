@@ -39,6 +39,7 @@ namespace
 namespace ApplesGame
 {
     bool isGameOver = false;
+    bool isWin = false;
     float pauseTimeLeft = 0.f;
 
     void StartPause()
@@ -60,6 +61,15 @@ namespace ApplesGame
 
     void CheckIfGameIsOver(Game& game)
     {
+        if (game.apples.size == game.numEatenApples)
+        {
+            isWin = true;
+            isGameOver = true;
+            game.finalScore = game.numEatenApples;
+
+            return;
+        }
+
         if (isCollapsedWithRock(game.player, game.rocks) || isCollapsedWithBorder(game.player))
         {
             isGameOver = true;

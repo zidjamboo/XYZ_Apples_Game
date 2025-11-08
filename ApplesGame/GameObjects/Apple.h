@@ -9,6 +9,7 @@ namespace ApplesGame
         Position2D position;
         Size2D size;
         sf::Sprite sprite;
+        bool isEaten = false;
     };
 
     struct ApplesArray

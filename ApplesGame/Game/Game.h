@@ -29,6 +29,7 @@ namespace ApplesGame
 
         // Background
         Background mainBackground;
+        Background winBackground;
         Background deathBackground;
 
         // Textures

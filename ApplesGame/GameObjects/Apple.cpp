@@ -24,7 +24,10 @@ namespace ApplesGame
         for (int i = 0; i < apples.size; ++i)
         {
             Apple& apple = apples.arr[i];
-            window.draw(apple.sprite);
+            if (!apple.isEaten)
+            {
+                window.draw(apple.sprite);
+            }
         }
     }
 }

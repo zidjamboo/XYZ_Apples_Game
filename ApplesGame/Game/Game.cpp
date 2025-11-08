@@ -15,6 +15,12 @@ namespace
         for (int i = 0; i < game.apples.size; ++i)
         {
             Apple& apple = game.apples.arr[i];
+
+            if (apple.isEaten)
+            {
+                continue;
+            }
+
             if (IsRectanglesCollide(
                     game.player.position,
                     game.player.size,
@@ -22,7 +28,15 @@ namespace
                     apple.size)
             )
             {
+                if (IsFlagEnabled(GameMode::INFINITE))
+                {
                 MoveObject(apple.sprite, apple.position);
+                }
+                else
+                {
+                    apple.isEaten = true;
+                }
+
                 ++game.numEatenApples;
                 game.player.speed += ACCELERATION;
 
@@ -71,6 +85,7 @@ namespace ApplesGame
         assert(game.textures.apple.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
         assert(game.textures.rock.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
         assert(game.textures.mainBackground.loadFromFile(RESOURCES_PATH + "\\Background.jpg"));
+        assert(game.textures.winBackground.loadFromFile(RESOURCES_PATH + "\\WinBackground.jpg"));
         assert(game.textures.deathBackground.loadFromFile(RESOURCES_PATH + "\\GameOverBackground.jpg"));
 
         // Init sounds
@@ -94,6 +109,7 @@ namespace ApplesGame
         InitPlayer(game.player, game.textures.player);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
+        InitBackground(game.winBackground, game.textures.winBackground);
         InitBackground(game.deathBackground, game.textures.deathBackground);
         InitUI(game.ui, game.fonts);
 
@@ -126,10 +142,13 @@ namespace ApplesGame
             DrawRocks(game.rocks, window);
             DrawScore(game.ui, window);
         }
-        else
+        else if (!isWin)
         {
             DrawBackground(game.deathBackground, window);
             DrawFinalScore(game.ui, window);
+        } else
+        {
+            DrawBackground(game.winBackground, window);
         }
 
         window.display();

@@ -7,6 +7,7 @@
 namespace ApplesGame
 {
     extern bool isGameOver;
+    extern bool isWin;
     extern float pauseTimeLeft;
 
     void StartPause();
