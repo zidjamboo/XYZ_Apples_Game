@@ -10,9 +10,9 @@ namespace ApplesGame
     {
         sf::Vector2u size = texture.getSize();
         background.sprite.setTexture(texture);
-        unsigned int targetWidth = size.x;
-        unsigned int targetHeight = size.x * 3 / 4;
-        int yOffset = (size.y - targetHeight) / 2;
+        int targetWidth = static_cast<int>(size.x);
+        int targetHeight = static_cast<int>(static_cast<float>(size.x) / SCREEN_FORMAT);
+        int yOffset = static_cast<int>(size.y - targetHeight) / 2;
         background.sprite.setTextureRect(sf::IntRect(0, yOffset, targetWidth, targetHeight));
         setSpriteSize(background.sprite, {SCREEN_WIDTH, SCREEN_HEIGHT});
     }
