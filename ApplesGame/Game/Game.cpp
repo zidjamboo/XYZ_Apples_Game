@@ -91,6 +91,7 @@ namespace ApplesGame
         assert(game.textures.mainBackground.loadFromFile(RESOURCES_PATH + "\\Background.jpg"));
         assert(game.textures.winBackground.loadFromFile(RESOURCES_PATH + "\\WinBackground.jpg"));
         assert(game.textures.deathBackground.loadFromFile(RESOURCES_PATH + "\\GameOverBackground.jpg"));
+        assert(game.textures.checkmark.loadFromFile(RESOURCES_PATH + "\\Checkmark.jpg"));
 
         // Init sounds
         sf::SoundBuffer& appleEatBuffer = game.sounds.appleEatBuffer;
@@ -109,7 +110,7 @@ namespace ApplesGame
         ds.play();
 
         // Init game
-        InitGameMode();
+        InitGameMode(game);
         InitPlayer(game.player, game.textures.player);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);

@@ -11,5 +11,6 @@ namespace ApplesGame
         sf::Texture mainBackground;
         sf::Texture winBackground;
         sf::Texture deathBackground;
+        sf::Texture checkmark;
     };
 }

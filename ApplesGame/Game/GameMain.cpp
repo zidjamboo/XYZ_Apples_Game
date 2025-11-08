@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "GameFinish.h"
+#include "GameMode.h"
 #include "../Settings/Constants.h"
 
 
@@ -30,6 +31,14 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+        }
+
+        if (isNeedSetupGame)
+        {
+            window.clear();
+            DrawSetupMenu(window);
+            window.display();
+            continue;
         }
 
         float currentTime = gameClock.getElapsedTime().asSeconds();
