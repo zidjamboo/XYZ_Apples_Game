@@ -22,6 +22,8 @@ namespace
 
     sf::Int32 lastClickTime = 0;
 
+    sf::Text pressSpaceText;
+
     void InitText(
         sf::Text& text,
         const ApplesGame::Game& game,
@@ -96,6 +98,12 @@ namespace ApplesGame
         InitCheckMark(infiniteCheckmark, game, {200.f, 15.f});
         InitCheckMark(accelerationCheckmark, game, {200.f, 55.f});
         InitCheckMark(hardModeCheckmark, game, {200.f, 95.f});
+
+        pressSpaceText.setFont(game.fonts.robotoBold);
+        pressSpaceText.setCharacterSize(24);
+        pressSpaceText.setFillColor(sf::Color::Green);
+        pressSpaceText.setString("Press the space bar to start the game");
+        pressSpaceText.setPosition((SCREEN_WIDTH - pressSpaceText.getLocalBounds().width) / 2.f , 550.f);
     }
 
     void UpdateSetupMenu(const sf::Clock& clock, const sf::Event& event)
@@ -162,6 +170,7 @@ namespace ApplesGame
         window.draw(infinite);
         window.draw(acceleration);
         window.draw(hardMode);
+        window.draw(pressSpaceText);
 
         if (IsFlagEnabled(GameMode::INFINITE))
         {
