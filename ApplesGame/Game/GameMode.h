@@ -14,9 +14,9 @@ namespace ApplesGame
     };
 
     struct Game;
-    void InitGameMode(Game& game);
     void SetFlagEnabled(const GameMode& flag, const bool& enabled);
     bool IsFlagEnabled(const GameMode& flag);
     void DropSettingsToDefaults();
+    void InitGameMode(const Game& game);
     void DrawSetupMenu(sf::RenderWindow& window);
 }
