@@ -10,6 +10,7 @@ namespace ApplesGame
         HARDMODE = 1 << 2
     };
 
+    void InitGameMode();
     void SetFlagEnabled(const GameMode& flag, const bool& enabled);
     bool IsFlagEnabled(const GameMode& flag);
 }

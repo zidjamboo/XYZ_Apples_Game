@@ -4,6 +4,7 @@
 #include "../UI/Background.h"
 #include "../Settings/Textures.h"
 #include "GameFinish.h"
+#include "GameMode.h"
 
 namespace
 {
@@ -89,6 +90,7 @@ namespace ApplesGame
         ds.play();
 
         // Init game
+        InitGameMode();
         InitPlayer(game.player, game.textures.player);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
