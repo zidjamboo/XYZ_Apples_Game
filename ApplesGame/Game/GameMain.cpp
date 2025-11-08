@@ -33,17 +33,18 @@ int main()
                 window.close();
         }
 
+        float currentTime = gameClock.getElapsedTime().asSeconds();
+        float deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
         if (isNeedSetupGame)
         {
             window.clear();
+            UpdateSetupMenu(gameClock, event);
             DrawSetupMenu(window);
             window.display();
             continue;
         }
-
-        float currentTime = gameClock.getElapsedTime().asSeconds();
-        float deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
 
         if (isGameOver)
         {

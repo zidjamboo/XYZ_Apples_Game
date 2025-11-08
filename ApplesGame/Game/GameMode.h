@@ -8,15 +8,16 @@ namespace ApplesGame
 
     enum class GameMode : std::uint8_t
     {
-        INFINITE = 1 << 0,
-        ACCELERATION = 1 << 1,
-        HARDMODE = 1 << 2
+        INFINITE = 0,
+        ACCELERATION = 1,
+        HARDMODE = 2
     };
 
     struct Game;
     void SetFlagEnabled(const GameMode& flag, const bool& enabled);
     bool IsFlagEnabled(const GameMode& flag);
     void DropSettingsToDefaults();
-    void InitGameMode(const Game& game);
+    void InitSetupMenu(const Game& game);
+    void UpdateSetupMenu(const sf::Clock& clock, const sf::Event& event);
     void DrawSetupMenu(sf::RenderWindow& window);
 }

@@ -18,6 +18,10 @@ namespace
     sf::Sprite accelerationCheckmark;
     sf::Sprite hardModeCheckmark;
 
+    ApplesGame::GameMode selectedMode = ApplesGame::GameMode::INFINITE;
+
+    sf::Int32 lastClickTime = 0;
+
     void InitText(
         sf::Text& text,
         const ApplesGame::Game& game,
@@ -36,6 +40,18 @@ namespace
         ApplesGame::setSpriteSize(checkmark, {CHECKMARK_SIZE, CHECKMARK_SIZE});
         checkmark.setPosition(position.x, position.y);
     }
+
+    void UpdateTextColor(sf::Text& text, const bool& isSelected)
+    {
+        if (isSelected)
+        {
+            text.setFillColor(sf::Color::Yellow);
+        }
+        else
+        {
+            text.setFillColor(sf::Color::White);
+        }
+    }
 }
 
 namespace ApplesGame
@@ -46,17 +62,17 @@ namespace ApplesGame
     {
         if (enabled)
         {
-            gameMode |= static_cast<uint8_t>(flag);
+            gameMode |= 1 << static_cast<uint8_t>(flag);
         }
         else
         {
-            gameMode &= ~static_cast<uint8_t>(flag);
+            gameMode &= ~(1 << static_cast<uint8_t>(flag));
         }
     }
 
     bool IsFlagEnabled(const GameMode& flag)
     {
-        return gameMode & static_cast<int>(flag);
+        return gameMode & 1 << static_cast<int>(flag);
     }
 
     void DropSettingsToDefaults()
@@ -67,7 +83,7 @@ namespace ApplesGame
         SetFlagEnabled(GameMode::HARDMODE, false);
     }
 
-    void InitGameMode(const Game& game)
+    void InitSetupMenu(const Game& game)
     {
         background.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
         background.setFillColor(sf::Color::Black);
@@ -80,6 +96,53 @@ namespace ApplesGame
         InitCheckMark(infiniteCheckmark, game, {200.f, 15.f});
         InitCheckMark(accelerationCheckmark, game, {200.f, 55.f});
         InitCheckMark(hardModeCheckmark, game, {200.f, 95.f});
+    }
+
+    void UpdateSetupMenu(const sf::Clock& clock, const sf::Event& event)
+    {
+        if (event.type == sf::Event::KeyReleased)
+        {
+            lastClickTime = 0;
+        }
+
+        sf::Int32 clickTime = clock.getElapsedTime().asMilliseconds();
+        if (clickTime - lastClickTime < 300)
+        {
+            return;
+        }
+
+        if (event.type == sf::Event::KeyPressed &&
+            (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down))
+        {
+            lastClickTime = clickTime;
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            int selectedIndex = static_cast<int>(selectedMode);
+            ++selectedIndex;
+            if (selectedIndex > 2)
+            {
+                selectedIndex = 0;
+            }
+
+            selectedMode = static_cast<GameMode>(selectedIndex);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            int selectedIndex = static_cast<int>(selectedMode);
+            --selectedIndex;
+            if (selectedIndex < 0)
+            {
+                selectedIndex = 2;
+            }
+
+            selectedMode = static_cast<GameMode>(selectedIndex);
+        }
+
+        UpdateTextColor(infinite, selectedMode == GameMode::INFINITE);
+        UpdateTextColor(acceleration, selectedMode == GameMode::ACCELERATION);
+        UpdateTextColor(hardMode, selectedMode == GameMode::HARDMODE);
     }
 
     void DrawSetupMenu(sf::RenderWindow& window)

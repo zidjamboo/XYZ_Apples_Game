@@ -110,7 +110,7 @@ namespace ApplesGame
         ds.play();
 
         // Init game
-        InitGameMode(game);
+        InitSetupMenu(game);
         InitPlayer(game.player, game.textures.player);
         InitRocks(game.rocks, game.textures.rock);
         InitBackground(game.mainBackground, game.textures.mainBackground);
