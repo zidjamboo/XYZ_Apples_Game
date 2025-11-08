@@ -7,11 +7,11 @@ namespace ApplesGame
 {
     void InitApples(ApplesArray& apples, const sf::Texture& appleTexture)
     {
-        int applesArraySize = 20;
+        int applesArraySize = NUM_APPLES_MIN + rand() % (NUM_APPLES_MAX - NUM_APPLES_MIN + 1);
         if ((IsFlagEnabled(GameMode::INFINITE) && !IsFlagEnabled(GameMode::HARDMODE)) ||
             (!IsFlagEnabled(GameMode::INFINITE) && IsFlagEnabled(GameMode::HARDMODE)))
         {
-            applesArraySize = 50;
+            applesArraySize = NUM_APPLES_MAX;
         }
         apples.arr = new Apple[applesArraySize];
         apples.size = applesArraySize;

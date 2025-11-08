@@ -11,7 +11,7 @@ namespace ApplesGame
     {
         SetFlagEnabled(GameMode::INFINITE, false);
         SetFlagEnabled(GameMode::ACCELERATION, false);
-        SetFlagEnabled(GameMode::HARDMODE, true);
+        SetFlagEnabled(GameMode::HARDMODE, false);
     }
 
     void SetFlagEnabled(const GameMode& flag, const bool& enabled = true)
