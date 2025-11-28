@@ -4,6 +4,8 @@
 #include "../Game/Game.h"
 
 constexpr size_t SCORE_ROW_LENGTH = 20;
+constexpr int BOT_SCORE_MIN = 0;
+constexpr int BOT_SCORE_MAX = 100;
 
 namespace
 {
@@ -27,17 +29,26 @@ namespace
 
 namespace ApplesGame
 {
-    void BubbleSort(std::vector<Record> vector)
+    std::shared_ptr<std::unordered_map<std::string, int>> GenerateLeaderBoardMap()
+    {
+        const auto map = std::make_shared<std::unordered_map<std::string, int>>();
+        map->insert({"Alice", 100});
+        map->insert({"Bob", 85});
+        map->insert({"Carol", 60});
+        map->insert({"Dave", 40});
+
+        return map;
+    }
+
+    void BubbleSort(std::vector<Record>& vector)
     {
         for (size_t i = 0; i < vector.size(); i++)
         {
             for (size_t j = i + 1; j < vector.size(); j++)
             {
-                if (vector[i].score > vector[j].score)
+                if (vector[i].score < vector[j].score)
                 {
-                    Record& tmp = vector[i];
-                    vector[i] = vector[j];
-                    vector[j] = tmp;
+                    std::swap(vector[i], vector[j]);
                 }
             }
         }
