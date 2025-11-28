@@ -151,19 +151,11 @@ namespace ApplesGame
         else if (!isWin)
         {
             DrawBackground(game.deathBackground, window);
-            std::unordered_map<std::string, int>& leaderBoardMap = *game.leaderBoardMap;
-            leaderBoardMap["Player"] = game.finalScore;
-
-            std::vector<Record> leaderBoard;
-            for (const auto& pair: leaderBoardMap)
-            {
-                leaderBoard.push_back({pair.first, pair.second});
-            }
-            BubbleSort(leaderBoard);
-            DrawLeaderBoard(game, leaderBoard, window);
+            DrawLeaderboard(game, window);
         } else
         {
             DrawBackground(game.winBackground, window);
+            DrawLeaderboard(game, window);
         }
 
         window.display();

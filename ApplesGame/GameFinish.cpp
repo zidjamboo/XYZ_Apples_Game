@@ -68,6 +68,8 @@ namespace ApplesGame
             isNeedSetupGame = true;
             game.finalScore = game.numEatenApples;
 
+            UpdateLeaderboard(game);
+
             StartPause();
 
             return;
@@ -80,6 +82,8 @@ namespace ApplesGame
             isNeedSetupGame = true;
             game.finalScore = game.numEatenApples;
             game.sounds.deathSound.play();
+
+            UpdateLeaderboard(game);
 
             StartPause();
         }

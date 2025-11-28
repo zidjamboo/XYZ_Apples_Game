@@ -9,6 +9,22 @@ constexpr int BOT_SCORE_MAX = 100;
 
 namespace
 {
+    std::shared_ptr<std::vector<ApplesGame::Record>> leaderboardPtr;
+
+    void BubbleSort(std::vector<ApplesGame::Record>& vector)
+    {
+        for (size_t i = 0; i < vector.size(); i++)
+        {
+            for (size_t j = i + 1; j < vector.size(); j++)
+            {
+                if (vector[i].score < vector[j].score)
+                {
+                    std::swap(vector[i], vector[j]);
+                }
+            }
+        }
+    }
+
     std::shared_ptr<sf::Text> InitScoreRow(const ApplesGame::Game& game, const ApplesGame::Record& record)
     {
         std::shared_ptr<sf::Text> text = std::make_shared<sf::Text>();
@@ -40,24 +56,26 @@ namespace ApplesGame
         return map;
     }
 
-    void BubbleSort(std::vector<Record>& vector)
+    void UpdateLeaderboard(const Game& game)
     {
-        for (size_t i = 0; i < vector.size(); i++)
+        std::unordered_map<std::string, int>& leaderboardMap = *game.leaderboardMap;
+        leaderboardMap["Player"] = game.finalScore;
+
+        std::vector<Record> leaderboard;
+        leaderboard.reserve(leaderboardMap.size());
+        for (const auto& pair: leaderboardMap)
         {
-            for (size_t j = i + 1; j < vector.size(); j++)
-            {
-                if (vector[i].score < vector[j].score)
-                {
-                    std::swap(vector[i], vector[j]);
-                }
-            }
+            leaderboard.push_back({pair.first, pair.second});
         }
+        BubbleSort(leaderboard);
+        leaderboardPtr = std::make_shared<std::vector<Record>>(leaderboard);
     }
 
-    void DrawLeaderBoard(const Game& game, const std::vector<Record>& leaderBoard, sf::RenderWindow& window)
+    void DrawLeaderboard(const Game& game, sf::RenderWindow& window)
     {
         float i = 1;
-        for (const Record& record : leaderBoard)
+        std::vector<Record>& lb = *leaderboardPtr;
+        for (const Record& record : *leaderboardPtr)
         {
             std::shared_ptr<sf::Text> text = InitScoreRow(game, record);
             text->setPosition(30.f, 30 * i);

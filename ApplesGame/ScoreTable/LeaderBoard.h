@@ -16,6 +16,6 @@ namespace ApplesGame
     struct Game;
 
     std::shared_ptr<std::unordered_map<std::string, int>> GenerateLeaderBoardMap();
-    void BubbleSort(std::vector<Record>& vector);
-    void DrawLeaderBoard(const Game& game, const std::vector<Record>& leaderBoard, sf::RenderWindow& window);
+    void UpdateLeaderboard(const Game& game);
+    void DrawLeaderboard(const Game& game, sf::RenderWindow& window);
 }

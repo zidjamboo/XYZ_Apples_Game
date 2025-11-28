@@ -46,7 +46,7 @@ namespace ApplesGame
         bool isNeedSettings = true;
 
         // Leader board
-        std::shared_ptr<std::unordered_map<std::string, int>> leaderBoardMap = GenerateLeaderBoardMap();
+        std::shared_ptr<std::unordered_map<std::string, int>> leaderboardMap = GenerateLeaderBoardMap();
     };
 
     void MoveObject(sf::Sprite& sprite, Position2D& position);
