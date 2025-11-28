@@ -59,7 +59,7 @@ namespace ApplesGame
     void UpdateLeaderboard(const Game& game)
     {
         std::unordered_map<std::string, int>& leaderboardMap = *game.leaderboardMap;
-        leaderboardMap["Player"] = game.finalScore;
+        leaderboardMap["Player"] = std::max(game.finalScore, leaderboardMap["Player"]);
 
         std::vector<Record> leaderboard;
         leaderboard.reserve(leaderboardMap.size());
