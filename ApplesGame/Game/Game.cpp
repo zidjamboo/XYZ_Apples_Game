@@ -159,7 +159,7 @@ namespace ApplesGame
                 {"Player", game.finalScore}
             };
             BubbleSort(leaderBoard);
-            DrawFinalScore(leaderBoard, window);
+            DrawLeaderBoard(game, leaderBoard, window);
         } else
         {
             DrawBackground(game.winBackground, window);

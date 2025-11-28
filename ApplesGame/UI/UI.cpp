@@ -36,8 +36,4 @@ namespace ApplesGame
     {
         window.draw(ui.score);
     }
-
-    void DrawFinalScore(std::vector<Record>& leaderBoard, sf::RenderWindow& window)
-    {
-    }
 }
