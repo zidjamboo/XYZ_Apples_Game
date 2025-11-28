@@ -5,6 +5,7 @@
 #include "../Settings/Textures.h"
 #include "GameFinish.h"
 #include "GameMode.h"
+#include "../ScoreTable/LeaderBoard.h"
 
 namespace
 {
@@ -150,7 +151,15 @@ namespace ApplesGame
         else if (!isWin)
         {
             DrawBackground(game.deathBackground, window);
-            DrawFinalScore(game.ui, window);
+            std::vector<Record> leaderBoard = {
+                {"Alice", 100},
+                {"Bob", 85},
+                {"Carol", 60},
+                {"Dave", 40},
+                {"Player", game.finalScore}
+            };
+            BubbleSort(leaderBoard);
+            DrawFinalScore(leaderBoard, window);
         } else
         {
             DrawBackground(game.winBackground, window);

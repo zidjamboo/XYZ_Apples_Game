@@ -698,6 +698,7 @@
       <AdditionalIncludeDirectories>D:\Development\XYZ\Lessons\ApplesGame\\SFML\SFML-2.5.1\include;</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="ScoreTable\LeaderBoard.cpp" />
     <ClCompile Include="UI\Background.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -861,6 +862,7 @@
     <ClInclude Include="Game\GameFinish.h" />
     <ClInclude Include="Game\GameMode.h" />
     <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="ScoreTable\LeaderBoard.h" />
     <ClInclude Include="Settings\Constants.h" />
     <ClInclude Include="Settings\Sounds.h" />
     <ClInclude Include="Settings\Textures.h" />

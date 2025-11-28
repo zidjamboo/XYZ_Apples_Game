@@ -2,6 +2,7 @@
 
 namespace ApplesGame
 {
+    struct Record;
     constexpr int SCORE_FONT_SIZE = 24;
     constexpr int FINAL_SCORE_FONT_SIZE = 96;
 
@@ -36,8 +37,7 @@ namespace ApplesGame
         window.draw(ui.score);
     }
 
-    void DrawFinalScore(UI& ui, sf::RenderWindow& window)
+    void DrawFinalScore(std::vector<Record>& leaderBoard, sf::RenderWindow& window)
     {
-        window.draw(ui.finalScore);
     }
 }

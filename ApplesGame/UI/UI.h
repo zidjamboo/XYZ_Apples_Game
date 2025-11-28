@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
 
+#include "../ScoreTable/LeaderBoard.h"
+
 namespace ApplesGame
 {
     struct Fonts
@@ -19,5 +21,5 @@ namespace ApplesGame
     void UpdateScore(UI& ui, const int& newScore);
     void UpdateFinalScore(UI& ui, const int& finalScore);
     void DrawScore(UI& ui, sf::RenderWindow& window);
-    void DrawFinalScore(UI& ui, sf::RenderWindow& window);
+    void DrawFinalScore(std::vector<Record>& leaderBoard, sf::RenderWindow& window);
 }
