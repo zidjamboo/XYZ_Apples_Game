@@ -15,6 +15,11 @@ namespace ApplesGame
         return dx <= (rect1Size.x + rect2Size.x) / 2 && dy <= (rect1Size.y + rect2Size.y) / 2;
     }
 
+    int GetRandomInt(const int& min, const int& max)
+    {
+        return min + rand() % (max - min + 1);
+    }
+
     float GetRandomFloat(const float& min, const float& max)
     {
         return min + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * max;

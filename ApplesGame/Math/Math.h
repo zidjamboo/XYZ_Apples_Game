@@ -23,6 +23,7 @@ namespace ApplesGame
         Size2D rect2Size
     );
 
+    int GetRandomInt(const int& min, const int& max);
     float GetRandomFloat(const float& min, const float& max);
     Position2D GetRandomPositionInScreen(const int& screenWidth, const int& screenHeight);
 

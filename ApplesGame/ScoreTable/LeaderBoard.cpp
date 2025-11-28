@@ -32,10 +32,10 @@ namespace ApplesGame
     std::shared_ptr<std::unordered_map<std::string, int>> GenerateLeaderBoardMap()
     {
         const auto map = std::make_shared<std::unordered_map<std::string, int>>();
-        map->insert({"Alice", 100});
-        map->insert({"Bob", 85});
-        map->insert({"Carol", 60});
-        map->insert({"Dave", 40});
+        map->insert({"Alice", GetRandomInt(BOT_SCORE_MIN, BOT_SCORE_MAX)});
+        map->insert({"Bob", GetRandomInt(BOT_SCORE_MIN, BOT_SCORE_MAX)});
+        map->insert({"Carol", GetRandomInt(BOT_SCORE_MIN, BOT_SCORE_MAX)});
+        map->insert({"Dave", GetRandomInt(BOT_SCORE_MIN, BOT_SCORE_MAX)});
 
         return map;
     }
