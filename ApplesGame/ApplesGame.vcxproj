@@ -868,6 +868,7 @@
     <ClInclude Include="Settings\Textures.h" />
     <ClInclude Include="UI\Background.h" />
     <ClInclude Include="UI\UI.h" />
+    <ClInclude Include="Utils\SortHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

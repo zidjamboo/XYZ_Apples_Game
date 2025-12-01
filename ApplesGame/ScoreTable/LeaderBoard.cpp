@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Text.hpp>
 #include "../Game/Game.h"
+#include "../Utils/SortHelper.h"
 
 constexpr size_t SCORE_ROW_LENGTH = 20;
 constexpr int BOT_SCORE_MIN = 0;
@@ -10,20 +11,6 @@ constexpr int BOT_SCORE_MAX = 100;
 namespace
 {
     std::shared_ptr<std::vector<ApplesGame::Record>> leaderboardPtr;
-
-    void BubbleSort(std::vector<ApplesGame::Record>& vector)
-    {
-        for (size_t i = 0; i < vector.size(); i++)
-        {
-            for (size_t j = i + 1; j < vector.size(); j++)
-            {
-                if (vector[i].score < vector[j].score)
-                {
-                    std::swap(vector[i], vector[j]);
-                }
-            }
-        }
-    }
 
     std::shared_ptr<sf::Text> InitScoreRow(const ApplesGame::Game& game, const ApplesGame::Record& record)
     {
